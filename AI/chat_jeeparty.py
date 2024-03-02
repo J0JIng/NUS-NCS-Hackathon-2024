@@ -1,10 +1,10 @@
 
-import pathlib
+#import pathlib
 import textwrap
 
 import google.generativeai as genai
 
-from IPython.display import display
+#from IPython.display import display
 from IPython.display import Markdown
 
 import python_tokens
@@ -12,7 +12,7 @@ import python_tokens
 
 class GeminiPrompter:
     
-    def __init__(self, modelname = 'gemini-pro'):
+    def __init__(self, modelname = "gemini-1.0-pro-latest"):
         genai.configure(api_key=python_tokens.google_api_key)
         self.model = genai.GenerativeModel(modelname)
         self.previous_response = ""
@@ -38,6 +38,6 @@ class GeminiPrompter:
         self.to_markdown(response.text)
 
 gem = GeminiPrompter()
-gem.become_markdown(gem.get_response("What is the meaning to life?"))
-
+gem.get_response("What is the meaning to life?")
+gem.print_models()
 
