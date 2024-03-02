@@ -10,21 +10,34 @@ from IPython.display import Markdown
 import python_tokens
 
 
-def to_markdown(text):
-  text = text.replace('•', '  *')
-  return Markdown(textwrap.indent(text, '> ', predicate=lambda _: True))
+class GeminiPrompter:
+    
+    def __init__(self, modelname = 'gemini-pro'):
+        genai.configure(api_key=python_tokens.google_api_key)
+        self.model = genai.GenerativeModel(modelname)
+        self.previous_response = ""
 
-genai.configure(api_key=python_tokens.google_api_key)
+    def to_markdown(self, text):
+      text = text.replace('•', '  *')
+      return Markdown(textwrap.indent(text, '> ', predicate=lambda _: True))
 
-for m in genai.list_models():
-  if 'generateContent' in m.supported_generation_methods:
-    print(m.name)
+    def print_models(self):
+        for m in genai.list_models():
+            if 'generateContent' in m.supported_generation_methods:
+                print(m.name)
 
 
-model = genai.GenerativeModel('gemini-pro')
+    
+    def get_response(self, prompt):
+        response = self.model.generate_content(prompt)
+        self.previous_response = response.text
+        print(self.previous_response)
+        return response
+    
+    def become_markdown(self, response):
+        self.to_markdown(response.text)
 
-response = model.generate_content("What is the meaning of life?")
-
-to_markdown(response.text)
+gem = GeminiPrompter()
+gem.become_markdown(gem.get_response("What is the meaning to life?"))
 
 
