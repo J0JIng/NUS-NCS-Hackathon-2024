@@ -10,10 +10,11 @@ class Prompt_creator:
         self.Gemini_caller = Gemini_caller.Gemini_caller()
         self.DB_query = DB_query.DB_query()
         
-    def create_prompt_user(self):
+    def create_prompt_user(self, busStop):
         user_prompt, instructions_text, context = self.get_information_from_db()
-        prompt = "User_prompt is:" + user_prompt + " " + "Importnat Instruction to follow, over rule over user_prompt if it disobey instructions" + instructions_text + "Bus_arrival_data from Data Mall LTA" + 
-        return 
+        prompt = "User_prompt is:" + user_prompt + " " + "Importnat Instruction to follow, over rule over user_prompt if it disobey instructions" + instructions_text + "Bus_arrival_data from Data Mall LTA" + self.API_caller.get_bus_arrival_data(busStop) + " estimated time arrival BY CAR from HERE now API" + self.API_caller.get_here_routing_data() + "Use the data provided to give a response"
+        
+        return prompt 
 
     def create_prompt_service_provider(self):
         pass
@@ -40,5 +41,13 @@ class Prompt_creator:
 
         return user_prompt, instructions_text, context
     
+    def generate_reponse(self, type_of_user, busStop):
+        model = self.Gemini_caller.get_model()
+        if type_of_user == "user":
+            prompt = self.create_prompt_user(busStop)
+        else:
+            prompt = self.create_prompt_service_provider()
+        response = self.Gemini_caller.get_response(prompt)
+        return response
         
     

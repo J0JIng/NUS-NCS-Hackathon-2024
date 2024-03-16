@@ -21,3 +21,6 @@ class Gemini_caller:
         self.previous_response = response.text
         print(self.previous_response)
         return response
+
+    def get_model(self):
+        return self.model
