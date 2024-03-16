@@ -131,7 +131,7 @@ class API_caller:
 
         return arrival_data 
 
-    def get_earliest_timing_and_load(self, bus_stop_data:json):
+    def get_earliest_timing_and_load(self, bus_stop_data):
         """
         Function to retrieve the earliest estimated timing of arrival and load for each bus service at each bus stop.
         """

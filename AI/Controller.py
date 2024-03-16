@@ -12,4 +12,6 @@ class Controller:
         self.Gemini_caller = Gemini_caller.Gemini_caller()
         self.DB_query = DB_query.DB_query()
 
-    
+    # get data from flask
+
+    def 
