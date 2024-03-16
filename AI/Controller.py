@@ -14,4 +14,5 @@ class Controller:
 
     # get data from flask
 
-    def 
+    def get_api_data(self, busStop):
+        pass

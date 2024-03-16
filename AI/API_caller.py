@@ -374,14 +374,15 @@ class API_caller:
         # Return sorted list of nearby car parks
         return [car_park[0] for car_park in nearby_car_parks]
 
-    def get_estimated_travel_duration(self):
-
+    def get_estimated_travel_duration(self, curr_pos: str, dest_pos):
+        # curr_pos is position of user in the format of "latitude, longitude"
+        # dest_pos is position of destination in the format of "latitude, longitude"
         # Define the API key and custom headers
         api_key = self.here_routing_api_key
         parameters = {
             "transportMode" : "car",
-            "origin":"1.3503458,103.9386226", # changi airport
-            "destination" : "1.3036642,103.8722496", # national stadium 
+            "origin":curr_pos, # changi airport
+            "destination" : dest_pos, # national stadium 
             "apikey": api_key
         }
         url = 'https://router.hereapi.com/v8/routes'
