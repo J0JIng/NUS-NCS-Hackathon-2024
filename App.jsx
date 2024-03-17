@@ -1,25 +1,21 @@
-import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
+import React from 'react';
 import { StyleSheet, Text, View, Button, TextInput, ScrollView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LandingPage from './components/LandingPage';
-import Providers from './components/Providers';
-import Users from './components/Users';
+import QuestionsForProviders from './components/QuestionsForProviders';
 
-
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.screen name = "LandingPage" component={LandingPage}/>
-        <Stack.screen name="Providers" component={Providers} />
-        <Stack.screen name="Users" component={Users} />
+        <Stack.Screen name="LandingPage" component={LandingPage} />
+        <Stack.Screen name="QuestionsForProviders" component={QuestionsForProviders} />
       </Stack.Navigator>
     </NavigationContainer>
   );
-};
+}
 
 export default App;
