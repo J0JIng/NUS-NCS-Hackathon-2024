@@ -12,18 +12,19 @@ class DB_schema:
         create_gemini_instruction_query = """
         CREATE TABLE IF NOT EXISTS gemini_instruction (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            instruction TEXT
+            instruction TEXT NOT NULL,
+            response TEXT
         );
         """
         create_user_historical_prompt_query = """
         CREATE TABLE IF NOT EXISTS user_historical_prompt (
-            qid INTEGER PRIMARY KEY AUTOINCREMENT,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             prompt TEXT
         );
         """
         create_api_context_data = """
         CREATE TABLE IF NOT EXISTS api_context_data (
-            qid INTEGER PRIMARY KEY AUTOINCREMENT,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             legend TEXT
         );
         """
@@ -40,3 +41,6 @@ class DB_schema:
             self.c.close()
             self.conn.close()
 
+if __name__ == "__main__":
+    db = DB_schema()
+    db.create_db()

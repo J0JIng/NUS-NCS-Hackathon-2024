@@ -24,3 +24,7 @@ class Gemini_caller:
 
     def get_model(self):
         return self.model
+    
+    def data_cleaning(self, prompt):
+        # clean prompt
+        return prompt
