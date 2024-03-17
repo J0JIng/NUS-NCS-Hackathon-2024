@@ -1,9 +1,6 @@
-
+/*
 import React from 'react';
-
-
 import { useState } from 'react';
-
 import { StyleSheet, Text, View, Button, TextInput, ScrollView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -24,5 +21,17 @@ const App = () => {
   );
 }
 
+
+export default App;
+*/
+
+import * as React from 'react';
+import MainContainer from './components/MainContainer';
+
+function App() {
+  return (
+    <MainContainer/>
+  );
+}
 
 export default App;
