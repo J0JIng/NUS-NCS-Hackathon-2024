@@ -29,14 +29,25 @@ class DB_schema:
         );
         """
         
+        create_event_counter_table = """
+        CREATE TABLE IF NOT EXISTS event_counter_table(
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                event_name TEXT,
+                venue TEXT,
+                date DATE,
+                count INTEGER
+                )
+        """
+
         try:
             self.c.execute(create_gemini_instruction_query)
             self.c.execute(create_user_historical_prompt_query)
             self.c.execute(create_api_context_data)
+            self.c.execute(create_event_counter_table)
             self.conn.commit()
-            logging.info("DB created successfully")
+            print("DB created successfully")
         except db.OperationalError as e:
-            logging.warn("Database not created due to", e)
+            print("Database not created due to", e)
         finally:
             self.c.close()
             self.conn.close()

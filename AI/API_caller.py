@@ -56,7 +56,7 @@ class API_caller:
         if response.status_code == 200:
             return response.json()
         else:
-            logging.warn("Error:", response.status_code)
+            print("Error:", response.status_code)
             return None
     def get_distance(self, latitude1, longitude1, latitude2, longitude2):
         """

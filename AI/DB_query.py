@@ -15,20 +15,22 @@ class DB_query:
         self.c.execute(f"SELECT {field_name} FROM {db_name}")
         return self.c.fetchall()
 
-    def insert_gem_in_out_db(self, instruction, response, hash):
-        self.c.execute(f"INSERT INTO gemini_instruction (instruction, response, hash) VALUES (?. ?. ?)", (instruction, response, hash))
+    def insert_gem_in_out_db(self, instruction, response):
+        self.c.execute(f"INSERT INTO gemini_instruction (instruction, response) VALUES (?, ?)", (instruction, response))
         try:
             self.conn.commit()
         except db.OperationalError as e:
-            logging.warn("Entry not created due to", e)
+            print("Entry not created due to", e)
             self.conn.rollback()
 
+    #TODO: Add a query to CRU events info + users counter
 
 
-    def update_gem_in_out_db(self, hash, new_value):
-        self.c.execute(f"UPDATE gemini_instruction SET response = '{new_value}' WHERE hash = '{hash}'")
+
+    def update_gem_in_out_db(self, id, new_value):
+        self.c.execute(f"UPDATE gemini_instruction SET response = '{new_value}' WHERE id = '{id}'")
         self.conn.commit()
-        logging.info(f"Updated gemini_instruction with hash value {hash}")
+        print(f"Updated gemini_instruction with hash value {id}")
 
     def get_latest_row(self, table_name):
         self.c.execute(f"SELECT id FROM {table_name} ORDER BY id DESC LIMIT 1")
@@ -37,5 +39,8 @@ class DB_query:
     def close_db(self):
         self.c.close()
         self.conn.close()
+
+    def get_cursor(self):
+        return self.c
     
     
