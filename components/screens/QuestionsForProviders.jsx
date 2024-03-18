@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Pressable } from 'react-native';
 
-export default function QuestionsForProviders () {
+export default function QuestionsForProviders ({navigation}) {
     return (
         <View style = {styles.container}>
             <View style = {styles.logo}>

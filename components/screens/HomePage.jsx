@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
+
+import * as React from 'react';
 import { StyleSheet, Text, View, Button, TextInput, ScrollView, FlatList, Pressable} from 'react-native';
 
 import { useState } from 'react';
 
 
-
-
-export default function App() {
+export default function HomePage({navigation}) {
   const [enteredGoalText, setEnteredGoalText] = useState('');
   const [courseGoals, setCourseGoals] = useState([])
 
