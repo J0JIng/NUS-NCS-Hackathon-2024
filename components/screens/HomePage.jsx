@@ -3,6 +3,7 @@ import * as React from 'react';
 import { StyleSheet, Text, View, Pressable, Image } from 'react-native';
 import { useState } from 'react';
 
+import Benson from '../../assets/Benson.jsx'
 
 export default function HomePage({navigation}) {
   /*const [enteredGoalText, setEnteredGoalText] = useState('');
@@ -24,8 +25,8 @@ export default function HomePage({navigation}) {
   return (
     <View style={styles.appContainer}>
       <View style={styles.topHalf}>
-        <View>
-          <Text>logo</Text>
+        <View style ={styles.sectionContainer}>
+          <Benson width={200} height={200} fill="black" />
         </View>
 
         <View style ={styles.sectionContainer}>
