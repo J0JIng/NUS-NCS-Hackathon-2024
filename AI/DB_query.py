@@ -10,7 +10,6 @@ class DB_query:
         self.c.execute(f"INSERT INTO {db_name} ({field_name}) VALUES ({query})")
         self.conn.commit()
 
-    
     def fetch_db(self, db_name, field_name):
         self.c.execute(f"SELECT {field_name} FROM {db_name}")
         return self.c.fetchall()
