@@ -36,7 +36,9 @@ export default function HomePage({navigation}) {
 
       <View style ={styles.sectionContainer}>
         <Pressable style={styles.providers} >
-          <Text style={styles.buttonText}>Providers</Text>
+          <Text 
+            onPress={() => navigation.navigate('QuestionsForProviders')}
+            style={styles.buttonText}>Providers</Text>
         </Pressable>
 
         <Pressable style={styles.users} >
@@ -47,12 +49,14 @@ export default function HomePage({navigation}) {
   );
 }
 
+
+
 //<CustomButton name='Providers' click = {addGoalHandler}/>
 // every view uses flexbox for children & organise top to bottom (column)
 // no style inheritance here (child do not have parent's style (no style cascading))
 
 //stylesheet object styles
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   topHalf: {
     paddingTop: 50,
     paddingHorizontal: 16,

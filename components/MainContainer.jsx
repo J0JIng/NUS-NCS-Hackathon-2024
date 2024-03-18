@@ -7,11 +7,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomePage from './screens/HomePage';
 import Providers from './screens/Providers';
 import Users from './screens/Users';
+import QuestionsForProviders from './screens/QuestionsForProviders';
 
 //Screen names
 const homeName = "HomePage";
 const providersName = "ProvidersPage";
 const usersName = "UsersPage";
+const questionsName = "QuestionsForProviders"
 
 const Tab = createBottomTabNavigator();
 
@@ -33,7 +35,7 @@ function MainContainer() {
 
             } else if (rn === usersName) {
               iconName = focused ? 'settings' : 'settings-outline';
-            }
+            } 
 
             // You can return any component that you like here!
             return <Ionicons name={iconName} size={size} color={color} />;
@@ -49,6 +51,7 @@ function MainContainer() {
         <Tab.Screen name={homeName} component={HomePage} />
         <Tab.Screen name={providersName} component={Providers} />
         <Tab.Screen name={usersName} component={Users} />
+        <Tab.Screen name={questionsName} component={QuestionsForProviders} />
 
       </Tab.Navigator>
     </NavigationContainer>
