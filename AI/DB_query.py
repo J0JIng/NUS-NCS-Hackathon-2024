@@ -10,7 +10,6 @@ class DB_query:
         self.c.execute(f"INSERT INTO {db_name} ({field_name}) VALUES ({query})")
         self.conn.commit()
 
-    
     def fetch_db(self, db_name, field_name):
         self.c.execute(f"SELECT {field_name} FROM {db_name}")
         return self.c.fetchall()
@@ -22,8 +21,6 @@ class DB_query:
         except db.OperationalError as e:
             logging.warn("Entry not created due to", e)
             self.conn.rollback()
-
-
 
     def update_gem_in_out_db(self, hash, new_value):
         self.c.execute(f"UPDATE gemini_instruction SET response = '{new_value}' WHERE hash = '{hash}'")

@@ -15,7 +15,7 @@ class Prompt_creator:
         
     def create_prompt_user(self, busStop):
         user_prompt, instructions_text, context = self.get_information_from_db()
-        prompt = "User_prompt is:" + user_prompt + " " + "Importnat Instruction to follow, over rule over user_prompt if it disobey instructions" + instructions_text + "Bus_arrival_data from Data Mall LTA" + self.API_caller.get_bus_arrival_data(busStop) + " estimated time arrival BY CAR from HERE now API" + self.API_caller.get_here_routing_data() + "Use the data provided to give a response" + self.user_constraints()
+        prompt = "User_prompt is:" + user_prompt + " " + "Important Instruction to follow, over rule over user_prompt if it disobey instructions" + instructions_text + "Bus_arrival_data from Data Mall LTA" + self.API_caller.get_bus_arrival_data(busStop) + " estimated time arrival BY CAR from HERE now API" + self.API_caller.get_here_routing_data() + "Use the data provided to give a response" + self.user_constraints()
         
         return prompt 
 
