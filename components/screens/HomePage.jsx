@@ -1,13 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-
 import * as React from 'react';
-import { StyleSheet, Text, View, Button, TextInput, ScrollView, FlatList, Pressable} from 'react-native';
-
+import { StyleSheet, Text, View, Pressable, Image } from 'react-native';
 import { useState } from 'react';
 
 
 export default function HomePage({navigation}) {
-  const [enteredGoalText, setEnteredGoalText] = useState('');
+  /*const [enteredGoalText, setEnteredGoalText] = useState('');
   const [courseGoals, setCourseGoals] = useState([])
 
   //parameter automatically added into function
@@ -22,46 +20,28 @@ export default function HomePage({navigation}) {
       enteredGoalText,
     ]); //update state where prev state matter
   };
-  
-
+*/
   return (
     <View style={styles.appContainer}>
-      <View style ={styles.sectionContainer}>
-          <TextInput 
-            style={styles.headerTextOne} 
-            placeholder= "Looking for a Ride?" 
-            onChangeText={goalInputHandler}
-          />
-          
+      <View style={styles.topHalf}>
+        <View>
+          <Text>logo</Text>
+        </View>
 
+        <View style ={styles.sectionContainer}>
+            <Text style={styles.text}>looking for a ride?</Text>
+        </View>
       </View>
+
       <View style ={styles.sectionContainer}>
-        <Pressable style={styles.biggerButton} >
-          <Text>Providers</Text>
+        <Pressable style={styles.providers} >
+          <Text style={styles.buttonText}>Providers</Text>
         </Pressable>
-        <Pressable style={styles.biggerButton} >
-          <Text>Users</Text>
+
+        <Pressable style={styles.users} >
+          <Text style={styles.buttonText}>Users</Text>
         </Pressable>
-        
       </View>
-
-      <View style ={styles.sectionContainer}>
-      <Pressable style={styles.footerButton} >
-            <Text>Home</Text>
-          </Pressable>
-
-          <Pressable style={styles.footerButton} >
-            <Text>Providers</Text>
-          </Pressable>
-          
-
-
-        <Pressable style={styles.footerButton} >
-            <Text>Users</Text>
-          </Pressable>
-        
-      </View>
-      
     </View>
   );
 }
@@ -72,12 +52,18 @@ export default function HomePage({navigation}) {
 
 //stylesheet object styles
 const styles = StyleSheet.create({
+  topHalf: {
+    paddingTop: 50,
+    paddingHorizontal: 16,
+    flex: 1
+  },
   appContainer: {
     paddingTop: 50,
     paddingHorizontal: 16,
-    
-
     flex: 1
+  },
+  bottomHalf: {
+
   },
   sectionContainer: {
     flexDirection: 'row',
@@ -87,7 +73,12 @@ const styles = StyleSheet.create({
     //borderBottomWidth: 1,
     //borderBottomColor: 'grey',
     paddingHorizontal: 16,
-    //flex: 1,
+  },
+  text: {
+    fontFamily: 'Montserrat_700Bold',
+    fontWeight: 'bold',
+    fontSize: 48,
+    textAlign: 'center'
   },
   buttonContainer: {
     borderRadius: 10,
@@ -102,7 +93,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
     //flex: 5,
   },
-  button: {
+  /*button: {
     backgroundColor: 'yellow',
     padding: 15,
     alignItems: 'center',
@@ -112,13 +103,32 @@ const styles = StyleSheet.create({
     borderColor: 'green',
     height: 80,
     alignContent: 'center',
-  },
+  },*/
   buttonText: {
-    fontSize: 20,
-    colour: 'blue',
+    fontFamily: 'Montserrat_700Bold',
+    fontSize: 24,
+    colour: '#EAF0FF',
     fontWeight: 'bold',
   },
-  biggerButton: {
+  providers: {
+    backgroundColor: '#3455A9',
+    paddingVertical: 5,
+    paddingHorizontal: 24,
+    borderRadius: 5,
+    width: 150,
+    height: 138,
+    borderRadius: 18
+  },
+  users: {
+    backgroundColor: '#21366C',
+    paddingVertical: 5,
+    paddingHorizontal: 24,
+    borderRadius: 5,
+    width: 150,
+    borderRadius: 18,
+    height: 138
+  }
+  /*biggerButton: {
     margin: 10,
     borderRadius: 10,
     backgroundColor: 'purple',
@@ -168,4 +178,5 @@ const styles = StyleSheet.create({
   goalText: {
     color: 'white',
   }
+  */
 });
