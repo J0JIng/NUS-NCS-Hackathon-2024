@@ -417,7 +417,7 @@ class API_caller:
             data = response.json()
             
             for item in data['items']:
-                if item['address']['countryName'] == "Singapore":
+                if 'address' in item and item['address']['countryName'] == "Singapore":
                     position = item['position']
                     return position['lat'], position['lng']
                 
