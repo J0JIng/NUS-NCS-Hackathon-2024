@@ -84,7 +84,7 @@ const questionsStyles = StyleSheet.create({
         //borderBottomWidth: 1,
         //borderBottomColor: 'grey',
         paddingHorizontal: 16,
-      },
+    },
 
     questionContainerWithBorder: {
         flexDirection: 'column',
