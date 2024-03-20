@@ -1,47 +1,24 @@
-import React, { useState } from 'react';
-import { TouchableOpacity, Text, StyleSheet, View } from 'react-native';
+import { useState } from 'react';
+import * as React from'react';
+import { Pressable, Text, StyleSheet, View } from 'react-native';
 
-const SinkingButton = ({ onPress, title }) => {
-  const [pressed, setPressed] = useState(false);
-
-  const handlePressIn = () => {
-    setPressed(true);
-  };
-
-  const handlePressOut = () => {
-    setPressed(false);
-  };
-
-  return (
-    <TouchableOpacity
-      onPress={onPress}
-      onPressIn={handlePressIn}
-      onPressOut={handlePressOut}
-      style={[styles.button, pressed && styles.buttonPressed]}
-    >
-      <Text style={styles.text}>{title}</Text>
-    </TouchableOpacity>
-  );
-};
-
-const Users = ({ navigation }) => {
-  const handlePress = () => {
-    // Handle button press here
-    console.log('Button pressed');
-  };
-
+export default function Users({navigation}) {
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>users</Text>
-      <View>
-        <SinkingButton style={styles.rn} onPress={handlePress} title="right now" />
+      <View style={styles.buttonR}>
+        <Pressable>
+          <Text onPress={() => navigation.navigate('RightNow')} style={styles.textRightNow}>right now</Text>
+        </Pressable>
       </View>
-      <View>
-        <SinkingButton style={styles.future} onPress={handlePress} title="future" />
+      <View style={styles.buttonF}>
+        <Pressable>
+          <Text style={styles.textFuture}>future</Text>
+        </Pressable>
       </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -61,21 +38,42 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     elevation: 3,
     width: 171.75,
-    height: 48
+    height: 48,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  rn: {
-    backgroundColor: '#3455A9',
-  },
-  buttonPressed: {
+  /*buttonPressed: {
     transform: [{ scale: 0.95 }],
+  },*/
+  buttonR: {
+    backgroundColor: '#3455A9',
+    borderRadius: 28,
+    width: 171.75,
+    height: 48,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
-  text: {
-    textAlign:'center',
-    color: 'white',
-    ontFamily: 'Montserrat_700Bold',
+  buttonF: {
+    marginTop: 15,
+    backgroundColor: '#CE8239',
+    borderRadius: 28,
+    width: 171.75,
+    height: 48,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  textRightNow: {
+    fontFamily: 'Montserrat_700Bold',
     fontWeight: 'bold',
     fontSize: 24,
+    color: '#EAF0FF'
   },
+  textFuture: {
+    fontFamily: 'Montserrat_700Bold',
+    fontWeight: 'bold',
+    fontSize: 24,
+    color:'#2D3548'
+  }
 });
 
-export default Users;
+

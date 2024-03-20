@@ -8,12 +8,15 @@ import HomePage from './screens/HomePage';
 import Providers from './screens/Providers';
 import Users from './screens/Users';
 import QuestionsForProviders from './screens/QuestionsForProviders';
+import RightNow from './screens/RightNow';
+
 
 //Screen names
 const homeName = "HomePage";
 const providersName = "ProvidersPage";
 const usersName = "UsersPage";
-const questionsName = "QuestionsForProviders"
+const questionsName = "QuestionsForProviders";
+const rightNow ="RightNow";
 
 const Tab = createBottomTabNavigator();
 
@@ -52,6 +55,7 @@ function MainContainer() {
         <Tab.Screen name={providersName} component={Providers} />
         <Tab.Screen name={usersName} component={Users} />
         <Tab.Screen name={questionsName} component={QuestionsForProviders} />
+        <Tab.Screen name={rightNow} component={RightNow} />
 
       </Tab.Navigator>
     </NavigationContainer>
