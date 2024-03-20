@@ -23,6 +23,10 @@ class Controller:
         # "date_of_event": "date"
         # "time" : "AM / PM"
         # "prompt" : "user prompt",
+        # "date" : "date",
+        # "event" : "event name"
+
+
         form_data = json.loads(form_data)
         prompt = self.Prompt_creator.get_prompt(form_data)
 
@@ -55,7 +59,7 @@ if __name__ == "__main__":
         "date_of_event": "2022-01-01",
         "time": "AM",
         "prompt": "hello",
-        "date": "02/02/2024",
+        "date": "02/04/2024",
         "event": "Slowdive concert"},
         indent = 4)
     controller = Controller()
