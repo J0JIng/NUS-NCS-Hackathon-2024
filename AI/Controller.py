@@ -48,13 +48,16 @@ class Controller:
 
 if __name__ == "__main__":
     fake_data = json.dumps({
-        "type_of_user": "user",
-        "busStop": "HBL",
+        "type_of_user": "server",
+        "busStop": "80219",
         "curr_pos": "1.3503458,103.9386226",
         "dest_pos": "1.3036642,103.8722496",
         "date_of_event": "2022-01-01",
         "time": "AM",
-        "prompt": "hello"}, indent = 4)
+        "prompt": "hello",
+        "date": "02/02/2024",
+        "event": "Slowdive concert"},
+        indent = 4)
     controller = Controller()
     controller.get_api_data(fake_data)
     
