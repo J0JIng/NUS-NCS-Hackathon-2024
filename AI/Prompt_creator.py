@@ -79,8 +79,6 @@ class Prompt_creator:
             ** Data: **
             * Month passenger volume data: { self. API_caller.get_passenger_volume(date) }
 
-
-
             """
 
           return prompt

@@ -20,7 +20,7 @@ class Gemini_caller:
         response = self.model.generate_content(prompt)
         self.previous_response = response.text
         print("WOW", self.previous_response)
-        return response
+        return self.previous_response
 
     def get_model(self):
         return self.model

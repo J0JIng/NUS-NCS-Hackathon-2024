@@ -1,4 +1,6 @@
 from flask import Flask , request , jsonify
+import logging
+import Controller
 
 app = Flask(__name__)
 
@@ -7,19 +9,25 @@ app = Flask(__name__)
 def index():
     return 'Hello World'
 
-@app.route('/send_data', methods=['POST'])
+@app.route('/create_response', methods=['POST'])
 def receive_data():
-    data = request.json 
-    input_data = data.get('inputData') # assume key 'inputData'
-    # process the data
-    print('Received data from frontend:', input_data)
-    return jsonify({'message':'Data received successfully'})
+    data = request.get_json() 
+    # contoller handle data process
+    controller.get_api_data(data)    
+    logging.info('Received data from frontend')
+    return jsonify(data) , 201
 
-@app.route('/receive_data')
+@app.route('/get_response')
 def send_data():
     # replace with actual function to retrieve prompt from LLM
-    result = 'sample_data_text'
-    return jsonify(result)
+    response = controller.send_api_data()
+    data = {
+            "response" : response
+        }
+
+    return jsonify(data) , 200
+
 
 if __name__ == "__main__":
+    controller = Controller.Controller()
     app.run(debug=True)
