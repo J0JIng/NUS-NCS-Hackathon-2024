@@ -7,11 +7,16 @@ import HomeDropdownComponent from '../dropdowncomponents/HomeDropdownComponent';
 
 import {styles} from './HomePage.jsx';
 import Benson from '../../assets/Benson.jsx'
+import RNFS from 'react-native-fs';
 
 export default function QuestionsForProviders ({navigation}) {
     //state
     const [userSelection, setUserSelection] = useState('');
     const [finalUserSelection, setFinalUserSelection] = useState([])
+    const [homeLocation, setHomeLocation] = useState('');
+    const [eventLocation, setEventLocation] = useState('');
+    const [eventDate, setEventDate] = useState('');
+    const [eventTime, setEventTime] = useState('');
 
     //parameter automatically added into function
     function keepUserSelection(selectedOption) {
@@ -24,6 +29,27 @@ export default function QuestionsForProviders ({navigation}) {
         ...currentCourseGoals, 
         userSelection,
         ]); //update state where prev state matter
+    };
+    const saveUserSelectionsToJsonFile = async () => {
+        try {
+            const path = RNFS.DocumentDirectoryPath + '/userSelections.json';
+
+            const userSelections = {
+                homeLocation,
+                eventLocation,
+                eventDate,
+                eventTime,
+            };
+
+            // Assuming you want to overwrite the file each time; 
+            // if appending data, you'd first read the file, modify the data, and then write it.
+            await RNFS.writeFile(path, JSON.stringify(userSelections, null, 2), 'utf8');
+
+            alert('Selections saved successfully!');
+        } catch (error) {
+            console.error('Failed to save selections: ', error);
+            alert('Failed to save selections.');
+        }
     };
 
     /*i want to do this but keepUserSelection/addUserSelection are instance methods (?) and 
@@ -59,16 +85,9 @@ export default function QuestionsForProviders ({navigation}) {
                 </View>
             </View>
 
-            <View style ={styles.sectionContainer}>
-                <Text style = {questionsStyles.questionText}>Users' Selections</Text> 
-                <ScrollView>
-                {finalUserSelection.map((selection) => (
-                    <View key={selection}>
-                    <Text>{selection}</Text>
-                    </View>
-                ))}
-                </ScrollView>
-            </View>
+            <Button title="Save Selections" onPress={saveUserSelectionsToJsonFile} />
+
+         
         </View>
 
     );
