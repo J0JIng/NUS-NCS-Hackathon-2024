@@ -14,6 +14,9 @@ RUN apk add --no-cache python3-dev && \
     pip install --upgrade pip && \
     pip install -r requirements.txt
 
-CMD ["python", "./AI/DB_schema.py"]
+EXPOSE 5000
 
+RUN python AI/DB_schema.py
+
+CMD source venv/bin/activate && python AI/app.py
 
