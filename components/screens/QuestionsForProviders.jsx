@@ -7,7 +7,6 @@ import HomeDropdownComponent from '../dropdowncomponents/HomeDropdownComponent';
 
 import {styles} from './HomePage.jsx';
 import Benson from '../../assets/Benson.jsx'
-import RNFS from 'react-native-fs';
 
 export default function QuestionsForProviders ({navigation}) {
     //state
@@ -30,7 +29,7 @@ export default function QuestionsForProviders ({navigation}) {
         userSelection,
         ]); //update state where prev state matter
     };
-    const saveUserSelectionsToJsonFile = async () => {
+    /*const saveUserSelectionsToJsonFile = async () => {
         try {
             const path = RNFS.DocumentDirectoryPath + '/userSelections.json';
 
@@ -50,7 +49,7 @@ export default function QuestionsForProviders ({navigation}) {
             console.error('Failed to save selections: ', error);
             alert('Failed to save selections.');
         }
-    };
+    };*/
 
     /*i want to do this but keepUserSelection/addUserSelection are instance methods (?) and 
     Picker in Dropdown Component has onValueChange but Dropdown Component doesn't*/
@@ -84,10 +83,6 @@ export default function QuestionsForProviders ({navigation}) {
                     </View>
                 </View>
             </View>
-
-            <Button title="Save Selections" onPress={saveUserSelectionsToJsonFile} />
-
-         
         </View>
 
     );
