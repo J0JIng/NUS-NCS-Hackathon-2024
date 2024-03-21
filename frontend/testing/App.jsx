@@ -12,7 +12,7 @@ const App = () => {
   const firstNames = ['Alice', 'Bob', 'Charlie'];
   const lastNames = ['Smith', 'Johnson', 'Williams'];
 
-  //const backend_url = "http://127.0.0.1:8080/get_response"
+  const backend_url = "http://127.0.0.1:8080/get_response"
 
   const handlePress = async () => {
     const data = {
@@ -20,22 +20,24 @@ const App = () => {
       lastName: selectedLastName,
     };
     setJsonOutput(JSON.stringify(data));
-    const response = await postJsonData();
-    setLLMResponse(response);
+    const jsonStuff = await postJsonData();
+    setLLMResponse(jsonStuff);
+    const response = await getResponse();
+    setBackEndResponse(response)
   };
 
 
-  //async function getResponse() {
-  //  try {
-  //    const response = await fetch(backend_url);
-  //    const data = await response.json();
-  //    console.log(data);
-  //    return data; // Return the data instead of logging it
-  //  } catch (error) {
-  //    console.error(error);
-  //    return null; // Return null or an appropriate error message if the fetch fails
-  //  }
-  //}
+  async function getResponse() {
+    try {
+      const response = await fetch(backend_url);
+      const data = await response.json();
+      console.log(data);
+      return data; // Return the data instead of logging it
+    } catch (error) {
+      console.error(error);
+      return null; // Return null or an appropriate error message if the fetch fails
+    }
+  } 
 
   async function postJsonData() {
     const url = "http://127.0.0.1:8080/create_response"; // Replace with your actual URL
@@ -96,7 +98,8 @@ const App = () => {
 
       <Text>JSON Output:</Text>
       <Text>{jsonOutput}</Text>
-      <Text>{llmResponse.response}</Text>
+      <Text>{backEndResponse.response}</Text>
+      
     </View>
   );
 };

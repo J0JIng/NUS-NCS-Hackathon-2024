@@ -26,8 +26,9 @@ def receive_data():
 def send_data():
     # replace with actual function to retrieve prompt from LLM
     response = controller.send_api_data()
+    logging.info(f'{response}')
     if response == "":
-        response = "haha"
+        response = "No response for now"
     data = {
             "response" : response
         }
