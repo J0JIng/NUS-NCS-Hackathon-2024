@@ -4,7 +4,12 @@ import { Picker } from '@react-native-picker/picker';
 import { View, StyleSheet, TextInput, Button, Alert, Text } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
-export default function Users () {
+export default function Users ({navigation}) {
+  const pressHandler = () => {
+    navigation.goBack();
+  }
+
+
   //use state functions for the rnpicker and the dropdowns
   const [selectedValue, setSelectedValue] = useState(null);
   const [selectedLocation, setLocation] = useState('');
@@ -129,7 +134,12 @@ export default function Users () {
           ))}
         </Picker>
       </View>
+
+      <View styles={styles.time}>
+        <Button title= 'back to home screen' onPress={pressHandler}/>
+      </View>
     </View>
+    
   );
 };
 

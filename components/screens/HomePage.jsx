@@ -23,12 +23,12 @@ export default function HomePage({navigation}) {
   };
 */
 const pressHandler1 = () => {
-  //navigation.navigate('Users')
-  navigation.push('Users');
+  navigation.navigate('Users')
+  //navigation.push('Users');
 }
 const pressHandler2 = () => {
-  //navigation.navigate('Users')
-  navigation.push('QuestionsForProviders');
+  navigation.navigate('QuestionsForProviders')
+  //navigation.push('QuestionsForProviders');
 }
 
   return (
