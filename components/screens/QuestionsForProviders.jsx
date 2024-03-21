@@ -17,6 +17,12 @@ export default function QuestionsForProviders ({navigation}) {
     const [eventDate, setEventDate] = useState('');
     const [eventTime, setEventTime] = useState('');
 
+
+    const pressHandler = () => {
+        navigation.goBack();
+    }
+
+
     //parameter automatically added into function
     function keepUserSelection(selectedOption) {
         setUserSelection(selectedOption);

@@ -22,6 +22,15 @@ export default function HomePage({navigation}) {
     ]); //update state where prev state matter
   };
 */
+const pressHandler1 = () => {
+  //navigation.navigate('Users')
+  navigation.push('Users');
+}
+const pressHandler2 = () => {
+  //navigation.navigate('Users')
+  navigation.push('QuestionsForProviders');
+}
+
   return (
     <View style={styles.appContainer}>
       <View style={styles.topHalf}>
@@ -30,20 +39,12 @@ export default function HomePage({navigation}) {
         </View>
 
         <View style ={styles.sectionContainer}>
-            <Text style={styles.text}>looking for a ride?</Text>
-        </View>
-      </View>
-
-      <View style ={styles.sectionContainer}>
-        <Pressable style={styles.providers} >
+        <Pressable style={styles.lookingforaridebutton } onPress={pressHandler1} >
           <Text 
-            onPress={() => navigation.navigate('QuestionsForProviders')}
-            style={styles.buttonText}>Providers</Text>
+            style={styles.text}>looking for a ride?</Text>
         </Pressable>
-
-        <Pressable style={styles.users} >
-          <Text style={styles.buttonText}>Users</Text>
-        </Pressable>
+            
+        </View>
       </View>
     </View>
   );
@@ -121,6 +122,15 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 24,
     borderRadius: 5,
     width: 150,
+    height: 138,
+    borderRadius: 18
+  },
+  lookingforaridebutton: {
+    backgroundColor: 'white',
+    paddingVertical: 5,
+    paddingHorizontal: 24,
+    borderRadius: 5,
+    width: 300,
     height: 138,
     borderRadius: 18
   },
