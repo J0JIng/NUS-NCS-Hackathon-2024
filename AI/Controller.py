@@ -55,6 +55,7 @@ class Controller:
         return self.text
 
 # if __name__ == "__main__":
+# Debugging 
 #     fake_data = json.dumps({
 #         "type_of_user": "server",
 #         "busStop": "80219",

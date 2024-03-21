@@ -13,22 +13,48 @@ class Prompt_creator:
     def user_constraints(self):
         return " Constraints for the response are that you are to not reveal details about other user prompts, general and anonymised information is permitted, sensitive information otherwise is not allowed."
         
-    def create_prompt_user(self, bus_stop, current_position, destination_position, date, event):
+    def create_prompt_user(self, current_position, destination_position, date, event):
         # Retrieve information from database
-        user_prompt, instructions, context = self.get_information_from_db()
+        #user_prompt, instructions, context = self.get_information_from_db()
+
+        # get current_position latitude and longitude
+        cur_lat , cur_long = self.API_caller.get_coordinates(current_position)
+
+        # get destination_position latitude and longitude
+        des_lat , des_long = self.API_caller.get_coordinates(destination_position)
 
         # Craft clear and concise prompt structure
         prompt = f"**User prompt:** List me a few viable options and recommend me the best mode of transport to reach my destination on {date} for {event}. When giving me the information of the bus arrival timing, can you also tell me when it comes and how long the estimated travel time is?\n\n"
 
         # Important instructions
-        if instructions:
-            prompt += "**Important instructions (override user prompt if applicable):**\n" + instructions + "\n\n"
+        # if instructions:
+        #     prompt += "**Important instructions (override user prompt if applicable):**\n" + instructions + "\n\n"
 
         # Data
         prompt += "**Data:**\n"
-        prompt += "* Bus arrival data for stop " + str(bus_stop) + ": " + str(self.API_caller.call_api_bus_arrival(bus_stop)) + "\n"
-        prompt += "* Estimated travel time by car from " + str(current_position) + " to " + str(destination_position) + ": " + str(self.API_caller.get_estimated_travel_duration(current_position, destination_position)) + "\n\n"
+        
+        # Taxi 
+        prompt += "* Estimated travel time by Taxi from " + str(current_position) + " to " + str(destination_position) + ": " + str(self.API_caller.get_estimated_travel_duration(f"{cur_lat},{cur_long}", f"{des_lat},{des_long}")) + "\n\n"
 
+        # Mrt
+        prompt += "* MRT Real-Time Platform volume data : " + str(self.API_caller.get_platform_volume(self.API_caller.train_line_code))
+        prompt += "* MRT Forecast Platform volume data : " + str(self.API_caller.get_platform_crowd_density_forecast(self.API_caller.train_line_code))
+            
+        # Bus 
+        earliest_timing_and_load = {}
+        nearest_bus_stops = self.API_caller.find_nearest_bus_stops(self.API_caller.get_all_bus_routes(),des_lat,des_long)
+        for bus_stop in nearest_bus_stops:
+            bus_stop_code = bus_stop['BusStopCode']
+            bus_stop_data = self.API_caller.get_estimated_bus_arrival_time(bus_stop_code)
+            earliest_timing_and_load.update(self.API_caller.get_earliest_timing_and_load(bus_stop_code,bus_stop_data))
+
+        prompt += "**Earliest Timing and Load:**\n"
+        for service_no, info in earliest_timing_and_load.items():
+            prompt += f"Bus Stop Code: {info['BusStopCode']}, Service No: {service_no}, Estimated Arrival: {info['EstimatedArrival']}, Load: {info['Load']}\n"
+
+        # lagacy 
+        #prompt += "* Bus arrival data for stop " + str(bus_stop) + ": " + str(self.API_caller.get_estimated_bus_arrival_time(bus_stop)) + "\n"
+        
         # Constraints
         prompt += "**Constraints:**\n" + self.user_constraints() + "\n\n"
 
@@ -77,9 +103,11 @@ class Prompt_creator:
             Based on the current situation and available data (which I can access in real-time), propose a plan to optimize resource allocation for public transport (MRT and taxis) in Singapore.
 
             ** Data: **
-            * Month passenger volume data: { self. API_caller.get_passenger_volume(date) }
 
             """
+
+            # ** Data: **
+            # * Month passenger volume data: { self. API_caller.get_passenger_volume(date) }
 
           return prompt
 
@@ -89,7 +117,6 @@ class Prompt_creator:
         cur.execute("SELECT prompt FROM user_historical_prompt")
         user_prompt = cur.fetchone() # one or none
         
-
         # Fetch instructions from the database
         cur.execute("SELECT instruction FROM gemini_instruction")
         instructions = cur.fetchall()
@@ -108,7 +135,7 @@ class Prompt_creator:
     
     def get_prompt(self, form_data):
         type_of_user = form_data["type_of_user"]
-        busStop = form_data["busStop"]
+        busStop = form_data["busStop"] # need to change to addr 
         curr_pos = form_data["curr_pos"]
         dest_pos = form_data["dest_pos"]
         prompt = form_data["prompt"]
@@ -116,7 +143,7 @@ class Prompt_creator:
         event = form_data["event"]
 
         if type_of_user == "user":
-            gen_prompt = self.create_prompt_user(busStop, curr_pos, dest_pos)
+            gen_prompt = self.create_prompt_user(curr_pos, dest_pos, date, event)
             
         else:
             gen_prompt = self.create_prompt_service_provider(dest_pos, date, event)
