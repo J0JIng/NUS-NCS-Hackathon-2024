@@ -35,6 +35,18 @@ class DB_query:
         self.c.execute(f"SELECT id FROM {table_name} ORDER BY id DESC LIMIT 1")
         return self.c.fetchone()
     
+    def add_date_event(self, date, event):
+        self.c.execute(f"SELECT data FROM event_counter_table WHERE date = '{date}", (date))
+        if self.c.fetchone() == None:
+            self.c.execute(f"INSERT INTO event_counter_table (event_name, date, count) VALUES (?, ?, ?)", (event, date, 1))
+        else:
+            self.c.execute(f"UPDATE event_counter_table SET count = count + 1 WHERE date = '{date}'")
+        try:
+            self.conn.commit()
+        except db.OperationalError as e:
+            print("Entry not created due to", e)
+            self.conn.rollback()
+    
     def close_db(self):
         self.c.close()
         self.conn.close()

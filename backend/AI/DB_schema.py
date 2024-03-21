@@ -30,7 +30,7 @@ class DB_schema:
         """
         
         create_event_counter_table = """
-        CREATE TABLE IF NOT EXISTS event_counter_table(
+        CREATE TABLE IF NOT EXISTS event_counter_table (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 event_name TEXT,
                 venue TEXT,
