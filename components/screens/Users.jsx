@@ -5,7 +5,10 @@ import { View, StyleSheet, TextInput, Button, Alert, Text } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
 export default function Users ({navigation}) {
-  const pressHandler = () => {
+  const pressHandlerForward = () => {
+    navigation.navigate('Results');
+  }
+  const pressHandlerBack = () => {
     navigation.goBack();
   }
 
@@ -34,6 +37,7 @@ export default function Users ({navigation}) {
     } else {
       Alert.alert('Error', 'Please select a date');
     }
+    navigation.navigate('Results');
   };
 
   return (
@@ -136,7 +140,7 @@ export default function Users ({navigation}) {
       </View>
 
       <View styles={styles.time}>
-        <Button title= 'back to home screen' onPress={pressHandler}/>
+        <Button title= 'back to home screen' onPress={pressHandlerBack}/>
       </View>
     </View>
     
