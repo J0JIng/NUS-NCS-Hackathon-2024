@@ -11,7 +11,7 @@ class Controller:
         self.API_caller = API_caller.API_caller()
         self.Gemini_caller = Gemini_caller.Gemini_caller()
         self.DB_query = DB_query.DB_query()
-        self.text = ""
+        self.dict = {}
 
     # get data from flask
 
@@ -39,10 +39,22 @@ class Controller:
             row = self.DB_query.get_latest_row("gemini_instruction")
 
             response = self.Gemini_caller.get_response(prompt)
+
             #print(row[0])
             self.DB_query.update_gem_in_out_db(row[0], response)
-            
-            self.text = str(response)
+            if form_data["type_of_user"] == "user":
+                response = response.split('|||')
+                self.dict["general_info"] = response[1]
+                self.dict["taxi"] = response[2]
+                self.dict["public_transport"] = response[3]
+                self.dict["type_of_user"] = form_data["type_of_user"]
+            else:
+                response = response.split('|||')
+                self.dict["general_info"] = response[1]
+                self.dict["increment_taxi"] = response[2]
+                self.dict["increment_bus"] = response[3]
+                self.dict["increment_train"] = response[4]
+                self.dict["type_of_user"] = form_data["type_of_user"]
         
         except Exception as e:
             print("Something went wrong", e)
@@ -54,7 +66,7 @@ class Controller:
     def send_api_data(self):
 
         # return the LLM's response
-        return self.text
+        return self.dict
 
 # if __name__ == "__main__":
 #     fake_data = json.dumps({
