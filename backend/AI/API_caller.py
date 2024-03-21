@@ -12,7 +12,36 @@ class API_caller:
         self.api_key = python_tokens.bus_api_key
         self.here_routing_api_key = python_tokens.here_routing_api
 
+    # Helper 
+    def get_coordinates(self, query):
+        # Define the API key and custom headers
+        api_key = self.here_routing_api_key
+        parameters = {
+            "q" : query,
+            "apikey": api_key
+        }
+        url = 'https://geocode.search.hereapi.com/v1/geocode'
+        response = requests.get(url, params=parameters)
+        
+        data = None
 
+        # Check the status code
+        if response.status_code == 200:
+            print('Response ok')
+            data = response.json()
+            
+            for item in data['items']:
+                if 'address' in item and item['address']['countryName'] == "Singapore":
+                    position = item['position']
+                    return position['lat'], position['lng']
+                
+            # Process the response data
+        else:
+            print('Failed to fetch data:', response.status_code)
+        
+        return data 
+
+    # Bus
     def get_all_bus_routes(self):
         """
         Function to find all bus stops in Singapore. last update (04 Apr 2023)
@@ -41,23 +70,7 @@ class API_caller:
 
 
         return results    
-    
-    def call_api_bus_arrival(self, busStop):
-
-        headers = {
-            "AccountKey": self.api_key,
-            "accept": "application/json"
-        }
-
-        parameters = {
-            "BusStopCode": busStop
-        }
-        response = requests.get("http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2", headers = headers, params = parameters)
-        if response.status_code == 200:
-            return response.json()
-        else:
-            print("Error:", response.status_code)
-            return None
+        
     def get_distance(self, latitude1, longitude1, latitude2, longitude2):
         """
         Function to calculate the distance between two points using Euclidean distance formula.
@@ -103,24 +116,23 @@ class API_caller:
         
         return nearby_bus_stops
     
-    def get_estimated_bus_arrival_time(self, busStopCode):
+    def get_estimated_bus_arrival_time(self, busStop):
+        
         """
         Function to find bus stops within a certain radius of given latitude and longitude. 
-        """
-
-        busStopCode = busStopCode
         
+        """
         headers = {
             "AccountKey": self.api_key,
             "Accept": "application/json"
         }
         parameters = {
-            "BusStopCode": busStopCode  
+            "BusStopCode": busStop  
         }
         url = 'http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2'
         response = requests.get(url, headers=headers, params=parameters)
         
-        arrival_data = "null"
+        arrival_data = "None"
 
         # Check the status code
         if response.status_code == 200:
@@ -130,13 +142,13 @@ class API_caller:
             print('Failed to fetch data:', response.status_code)
 
         return arrival_data 
-
-    def get_earliest_timing_and_load(self, bus_stop_data):
+    
+    def get_earliest_timing_and_load(self, bus_stop_code, bus_stop_data):
         """
         Function to retrieve the earliest estimated timing of arrival and load for each bus service at each bus stop.
         """
         earliest_timing_and_load = {}
-        
+    
         services = bus_stop_data.get('Services', [])
         for service in services:
             service_no = service.get('ServiceNo')
@@ -145,122 +157,44 @@ class API_caller:
             load = next_bus.get('Load', '')
             
             if service_no not in earliest_timing_and_load:
-                earliest_timing_and_load[service_no] = {'EstimatedArrival': estimated_arrival, 'Load': load}
+                earliest_timing_and_load[service_no] = {'BusStopCode': bus_stop_code, 'EstimatedArrival': estimated_arrival, 'Load': load}
             else:
                 # Update if the current estimated arrival is earlier than the stored one
                 if estimated_arrival < earliest_timing_and_load[service_no]['EstimatedArrival']:
-                    earliest_timing_and_load[service_no] = {'EstimatedArrival': estimated_arrival, 'Load': load}
+                    earliest_timing_and_load[service_no] = {'BusStopCode': bus_stop_code, 'EstimatedArrival': estimated_arrival, 'Load': load}
                     
         return earliest_timing_and_load
-        
-    def get_passenger_volume(self, date):
+    
+    # Trains
+    def get_platform_volume(self, train_line_list):
         """
-        Function to bus passenger volume in Singapore.
+        Function to retrieve real-time platform crowdedness level for a specific train network line.
         """
-
         headers = {
             "AccountKey": self.api_key,
             "Accept": "application/json" 
         }
-        parameters = {
-            "Date": date  
-        }
-        url = 'http://datamall2.mytransport.sg/ltaodataservice/PV/Bus'
+        # Initialize a dictionary to store the results for each train line
+        results = {}
 
-        results = []
-        while True:
-            response = requests.get(
-                url,
-                headers=headers,
-                params={'$skip': len(results)}
-            )
+        # Iterate over each train line code in the list
+        for train_line_code in train_line_list:
+            parameters = {
+                "TrainLine": train_line_code  
+            }
+            url = 'http://datamall2.mytransport.sg/ltaodataservice/PCDRealTime'
+
+            response = requests.get(url, headers=headers, params=parameters)
+            
             if response.status_code == 200:
-                new_results = response.json()['value']
-                if new_results:
-                    results += new_results
-                else:
-                    break
+                results[train_line_code] = response.json()
+                print(f'Response ok for train line {train_line_code}')
             else:
-                print('Failed to fetch data:', response.status_code)
-                break
-
-        print('Response ok')
-        print(len(results))  # Just for debugging
-
-        return results
-    
-    def get_platform_volume(self, train_line_code):
-        """
-        Function to retrieve real-time platform crowdedness level for a specific train network line.
-        """
-
-        headers = {
-            "AccountKey": self.api_key,
-            "Accept": "application/json" 
-        }
-        parameters = {
-            "TrainLine": train_line_code  
-        }
-        url = 'http://datamall2.mytransport.sg/ltaodataservice/PCDRealTime'
-
-        results = []
-        response = requests.get(url, headers=headers, params=parameters)
-
-        if response.status_code == 200:
-            results = response.json()
-            print('Response ok')
-        else:
-            print('Failed to fetch data:', response.status_code)
-
-        return results
-    
-    def get_earliest_timing_and_load(self, bus_stop_data):
-        """
-        Function to retrieve the earliest estimated timing of arrival and load for each bus service at each bus stop.
-        """
-        earliest_timing_and_load = {}
-        
-        services = bus_stop_data.get('Services', [])
-        for service in services:
-            service_no = service.get('ServiceNo')
-            next_bus = service.get('NextBus', {})
-            estimated_arrival = next_bus.get('EstimatedArrival', '')
-            load = next_bus.get('Load', '')
-            
-            if service_no not in earliest_timing_and_load:
-                earliest_timing_and_load[service_no] = {'EstimatedArrival': estimated_arrival, 'Load': load}
-            else:
-                # Update if the current estimated arrival is earlier than the stored one
-                if estimated_arrival < earliest_timing_and_load[service_no]['EstimatedArrival']:
-                    earliest_timing_and_load[service_no] = {'EstimatedArrival': estimated_arrival, 'Load': load}
-                    
-        return earliest_timing_and_load
-
-    def get_platform_volume(self, train_line_code):
-        """
-        Function to retrieve real-time platform crowdedness level for a specific train network line.
-        """
-        headers = {
-            "AccountKey": self.api_key,
-            "Accept": "application/json" 
-        }
-        parameters = {
-            "TrainLine": train_line_code  
-        }
-        url = 'http://datamall2.mytransport.sg/ltaodataservice/PCDRealTime'
-
-        results = []
-        response = requests.get(url, headers=headers, params=parameters)
-
-        if response.status_code == 200:
-            results = response.json()
-            print('Response ok')
-        else:
-            print('Failed to fetch data:', response.status_code)
+                print(f'Failed to fetch data for train line {train_line_code}:', response.status_code)
 
         return results
 
-    def get_platform_crowd_density_forecast(self, train_line_code):
+    def get_platform_crowd_density_forecast(self, train_line_list):
         """
         Function to retrieve forecasted platform crowdedness level for a particular train network line.
         """
@@ -268,57 +202,28 @@ class API_caller:
             "AccountKey": self.api_key,
             "Accept": "application/json" 
         }
-        parameters = {
-            "TrainLine": train_line_code  
-        }
-        url = 'http://datamall2.mytransport.sg/ltaodataservice/PCDForecast'
 
-        results = []
-        response = requests.get(url, headers=headers, params=parameters)
-        
-        if response.status_code == 200:
-            results = response.json()
-        else:
-            print('Failed to fetch data:', response.status_code)
+        # Initialize a dictionary to store the results for each train line
+        results = {}
 
-        return results
-    
-    def get_passenger_volume_by_train_stations(self, date):
-        """
-        Function to retrieve tap in and tap out passenger volume by weekdays and weekends for individual train stations.
-        """
-        api_key = self.api_key
-        headers = {
-            "AccountKey": api_key,
-            "Accept": "application/json" 
-        }
-        parameters = {
-            "Date": date  
-        }
-        url = 'http://datamall2.mytransport.sg/ltaodataservice/PV/Train'
+        # Iterate over each train line code in the list
+        for train_line_code in train_line_list:
 
-        results = []
-        while True:
-            response = requests.get(
-                url,
-                headers=headers,
-                params={'$skip': len(results)}
-            )
+            parameters = {
+                "TrainLine": train_line_code  
+            }
+            url = 'http://datamall2.mytransport.sg/ltaodataservice/PCDForecast'
+
+            response = requests.get(url, headers=headers, params=parameters)
+            
             if response.status_code == 200:
-                new_results = response.json()['value']
-                if new_results:
-                    results += new_results
-                else:
-                    break
+                results[train_line_code] = response.json()
             else:
-                print('Failed to fetch data:', response.status_code)
-                break
-
-        print('Response ok')
-        print(len(results))  # Just for debugging
+                print(f'Failed to fetch data for train line {train_line_code}:', response.status_code)
 
         return results
     
+    # Cars
 
     def get_carpark_availability(self):
         """
@@ -373,16 +278,16 @@ class API_caller:
 
         # Return sorted list of nearby car parks
         return [car_park[0] for car_park in nearby_car_parks]
-
-    def get_estimated_travel_duration(self, curr_pos: str, dest_pos):
+    
+    def get_estimated_travel_duration(self, curr_pos: str, dest_pos: str):
         # curr_pos is position of user in the format of "latitude, longitude"
         # dest_pos is position of destination in the format of "latitude, longitude"
         # Define the API key and custom headers
         api_key = self.here_routing_api_key
         parameters = {
             "transportMode" : "car",
-            "origin":curr_pos, # changi airport
-            "destination" : dest_pos, # national stadium 
+            "origin":curr_pos,
+            "destination" : dest_pos,
             "apikey": api_key
         }
         url = 'https://router.hereapi.com/v8/routes'
@@ -398,34 +303,3 @@ class API_caller:
             print('Failed to fetch data:', response.status_code)
         
         return str(arrival_data) 
-
-    def get_coordinates(self, query):
-        # Define the API key and custom headers
-        api_key = self.here_routing_api_key
-        parameters = {
-            "q" : query,
-            "apikey": api_key
-        }
-        url = 'https://geocode.search.hereapi.com/v1/geocode'
-        response = requests.get(url, params=parameters)
-        
-        data = None
-
-        # Check the status code
-        if response.status_code == 200:
-            print('Response ok')
-            data = response.json()
-            
-            for item in data['items']:
-                if 'address' in item and item['address']['countryName'] == "Singapore":
-                    position = item['position']
-                    return position['lat'], position['lng']
-                
-            # Process the response data
-        else:
-            print('Failed to fetch data:', response.status_code)
-        
-        return data 
-
-
-

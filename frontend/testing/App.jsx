@@ -44,11 +44,11 @@ const App = () => {
     const data = {
       type_of_user: "user",
       busStop: "80219",
-      curr_pos: "1.3503458,103.9386226",
-      dest_pos: "1.3036642,103.8722496",
+      curr_pos: "changi airport",
+      dest_pos: "national stadium",
       date_of_event: "2022-01-01",
       time: "AM",
-      prompt: "hello",
+      prompt: "what transport should i have to take to reach this location", 
       date: "02/02/2024",
       event: "Slowdive concert"
     };
