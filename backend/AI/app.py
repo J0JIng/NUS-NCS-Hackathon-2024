@@ -1,9 +1,11 @@
 from flask import Flask , request , jsonify
 import logging
 import Controller
+from flask_cors import CORS
+
 
 app = Flask(__name__)
-
+CORS(app)
 
 @app.route('/')
 def index():
@@ -11,21 +13,27 @@ def index():
 
 @app.route('/create_response', methods=['POST'])
 def receive_data():
+    
     data = request.get_json() 
     # contoller handle data process
     controller.get_api_data(data)    
     logging.info('Received data from frontend')
-    return jsonify(data) , 201
+    response = jsonify(data)
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 @app.route('/get_response')
 def send_data():
     # replace with actual function to retrieve prompt from LLM
     response = controller.send_api_data()
+    if response == "":
+        response = "haha"
     data = {
             "response" : response
         }
-
-    return jsonify(data) , 200
+    response = jsonify(data)
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 
 if __name__ == "__main__":

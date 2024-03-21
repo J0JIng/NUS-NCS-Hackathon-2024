@@ -3,7 +3,7 @@ import logging
 
 class DB_query:
     def __init__(self):
-        self.conn = db.connect('database.db')
+        self.conn = db.connect('database.db', check_same_thread=False)
         self.c = self.conn.cursor()
 
     def insert_db(self, query, db_name, field_name):

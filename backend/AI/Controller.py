@@ -24,9 +24,9 @@ class Controller:
         # "date_of_event": "date"
         # "time" : "AM / PM"
         # "prompt" : "user prompt",
-        if type(form_data) != dict:
-            form_data = json.loads(form_data)
-        prompt = self.Prompt_creator.get_prompt(form_data)
+
+        # form_data = json.loads(form_data)
+        prompt = self.Prompt_creator.get_prompt(form_data, self.DB_query)
 
         # self.DB_query.insert_db(prompt, "user_historical_prompt", "prompt")
 
@@ -46,9 +46,9 @@ class Controller:
         except Exception as e:
             print("Something went wrong", e)
 
-        finally:
+        # finally:
 
-            self.DB_query.close_db()
+            # self.DB_query.close_db()
         
     def send_api_data(self):
 

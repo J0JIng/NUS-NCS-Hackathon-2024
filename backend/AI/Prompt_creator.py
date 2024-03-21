@@ -8,7 +8,7 @@ class Prompt_creator:
     def __init__(self):
         self.API_caller = API_caller.API_caller()
         self.Gemini_caller = Gemini_caller.Gemini_caller()
-        self.DB_query = DB_query.DB_query()
+        self.DB_query = None
 
     def user_constraints(self):
         return " Constraints for the response are that you are to not reveal details about other user prompts, general and anonymised information is permitted, sensitive information otherwise is not allowed."
@@ -98,15 +98,12 @@ class Prompt_creator:
         cur.execute("SELECT legend FROM api_context_data")
         context = cur.fetchone()
 
-
-        # Bad SWE practise
-        cur.close()
-
         instructions_text = " ".join(instruction[0] for instruction in instructions)
 
         return user_prompt, instructions_text, context
     
-    def get_prompt(self, form_data):
+    def get_prompt(self, form_data, db):
+        self.DB_query = db
         type_of_user = form_data["type_of_user"]
         busStop = form_data["busStop"]
         curr_pos = form_data["curr_pos"]
@@ -116,7 +113,7 @@ class Prompt_creator:
         event = form_data["event"]
 
         if type_of_user == "user":
-            gen_prompt = self.create_prompt_user(busStop, curr_pos, dest_pos)
+            gen_prompt = self.create_prompt_user(busStop, curr_pos, dest_pos, date, event)
             
         else:
             gen_prompt = self.create_prompt_service_provider(dest_pos, date, event)
