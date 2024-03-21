@@ -26,13 +26,11 @@ def receive_data():
 def send_data():
     # replace with actual function to retrieve prompt from LLM
     response = controller.send_api_data()
-    logging.info(f'{response}')
-    if response == "":
+    logging.info(f'Reponse is {response}')
+    if response['general_info'] == "":
         response = "No response for now"
-    data = {
-            "response" : response
-        }
-    response = jsonify(data)
+
+    response = jsonify(response)
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 

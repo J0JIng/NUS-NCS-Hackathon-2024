@@ -60,7 +60,9 @@ class Prompt_creator:
 
         # Task
         prompt += "**Task:**\n"
-        prompt += "Use the provided data to generate a response that addresses the user's prompt while following the important instructions. Give me a response that is clear, concise, and relevant to the user's request."
+        prompt += f"Give me the information into these 3 parts: General Information, Taxi Information, and Public transport Information. \n\n"
+        prompt += f"Separate the information with these specific separator '|||' to partition the 3 information. I want them in the General Information, Taxi Information and Public transport information in this specific order.\n\n"
+        prompt += f"I want you to return it like this |||General Information: <General Information>|||Taxi Information: <Taxi Information>|||Public transport Information: <Public transport Information>|||\n\n"
 
         return prompt
 
@@ -126,8 +128,7 @@ class Prompt_creator:
         context = cur.fetchone()
 
 
-        # Bad SWE practise
-        cur.close()
+
 
         instructions_text = " ".join(instruction[0] for instruction in instructions)
 
