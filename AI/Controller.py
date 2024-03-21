@@ -10,7 +10,7 @@ class Controller:
         self.Prompt_creator = Prompt_creator.Prompt_creator()
         self.API_caller = API_caller.API_caller()
         self.Gemini_caller = Gemini_caller.Gemini_caller()
-        #self.DB_query = DB_query.DB_query()
+        self.DB_query = DB_query.DB_query()
         self.text = ""
 
     # get data from flask
@@ -24,7 +24,8 @@ class Controller:
         # "date_of_event": "date"
         # "time" : "AM / PM"
         # "prompt" : "user prompt",
-        #form_data = json.loads(form_data)
+        if type(form_data) != dict:
+            form_data = json.loads(form_data)
         prompt = self.Prompt_creator.get_prompt(form_data)
 
         # self.DB_query.insert_db(prompt, "user_historical_prompt", "prompt")
@@ -33,21 +34,21 @@ class Controller:
         # need to transform this transaction into atomic method
         try:
 
-            #self.DB_query.insert_gem_in_out_db(prompt, "None")
+            self.DB_query.insert_gem_in_out_db(prompt, "None")
 
-            #row = self.DB_query.get_latest_row("gemini_instruction")
+            row = self.DB_query.get_latest_row("gemini_instruction")
 
             response = self.Gemini_caller.get_response(prompt)
             #print(row[0])
-            #self.DB_query.update_gem_in_out_db(row[0], response)
+            self.DB_query.update_gem_in_out_db(row[0], response)
             self.text = str(response)
         
         except Exception as e:
             print("Something went wrong", e)
 
         finally:
-            pass
-            #self.DB_query.close_db()
+
+            self.DB_query.close_db()
         
     def send_api_data(self):
 
