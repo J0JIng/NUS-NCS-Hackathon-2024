@@ -41,6 +41,7 @@ class Controller:
             response = self.Gemini_caller.get_response(prompt)
             #print(row[0])
             self.DB_query.update_gem_in_out_db(row[0], response)
+            
             self.text = str(response)
         
         except Exception as e:

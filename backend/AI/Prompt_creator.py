@@ -35,10 +35,13 @@ class Prompt_creator:
         
         # Taxi 
         prompt += "* Estimated travel time by Taxi from " + str(current_position) + " to " + str(destination_position) + ": " + str(self.API_caller.get_estimated_travel_duration(f"{cur_lat},{cur_long}", f"{des_lat},{des_long}")) + "\n\n"
+        # taxi
+        prompt += "* The number of Taxis in the destination/event place is : " + str(self.API_caller.find_number_nearby_ava_taxi(self.API_caller.get_taxi_availability(),des_lat,des_long))+ "\n\n"
+
 
         # Mrt
-        prompt += "* MRT Real-Time Platform volume data : " + str(self.API_caller.get_platform_volume(self.API_caller.train_line_code))
-        prompt += "* MRT Forecast Platform volume data : " + str(self.API_caller.get_platform_crowd_density_forecast(self.API_caller.train_line_code))
+        prompt += "* MRT Real-Time Platform volume data : " + str(self.API_caller.get_platform_volume(self.API_caller.train_line_code))+ "\n\n"
+        prompt += "* MRT Forecast Platform volume data : " + str(self.API_caller.get_platform_crowd_density_forecast(self.API_caller.train_line_code))+ "\n\n"
             
         # Bus 
         earliest_timing_and_load = {}
@@ -66,50 +69,85 @@ class Prompt_creator:
 
 
     def create_prompt_service_provider(self, destination_position, date, event):
-          prompt = f"""
-            **Scenario:** You are a transport operator planner in Singapore, responsible for allocating resources (MRT trains and taxis) to meet commuter demand efficiently.
+        
+        # get destination_position latitude and longitude
+        des_lat , des_long = self.API_caller.get_coordinates(destination_position)
+        
+        prompt = f"""
+        **Scenario:** You are a transport operator planner in Singapore, responsible for allocating resources (MRT trains and taxis) to meet commuter demand efficiently.
 
-            **Current Situation:**
+        **Current Situation:**
 
-            * An upcoming event {event} is { destination_position } on {date} (Data from event organizers/calendars).
-            * Make an adjustment on the increase in transport based on the popularity of the event.
-            * If the event is popular, increase the transport allocation to the area.
+        * An upcoming event {event} is { destination_position } on {date} (Data from event organizers/calendars).
+        * Make an adjustment on the increase in transport based on the popularity of the event.
+        * If the event is popular, increase the transport allocation to the area.
 
-            **Goal:**
+        **Goal:**
 
-            Optimize resource allocation to ensure smooth commutes for passengers, considering factors like:
+        Optimize resource allocation to ensure smooth commutes for passengers, considering factors like:
 
-            * **Bus:** Adjust bus frequency and routes to meet demand in high-traffic areas.
-            * **MRT:** Adjust train frequency in high-demand areas based on real-time ridership data.
-            * **Taxis:** Increase taxi availability in congested areas or near event locations.
+        * **Bus:** Adjust bus frequency and routes to meet demand in high-traffic areas.
+        * **MRT:** Adjust train frequency in high-demand areas based on real-time ridership data.
+        * **Taxis:** Increase taxi availability in congested areas or near event locations.
 
-            Things to include in the response:
+        Things to include in the response:
 
-            Based on your knowledge on the popularity of the event, how much more transport should we allocate to the area? What are the current traffic conditions and how will it affect the allocation of resources? What are the current passenger demand and how will it affect the allocation of resources?
+        Based on your knowledge on the popularity of the event, how much more transport should we allocate to the area? What are the current traffic conditions and how will it affect the allocation of resources? What are the current passenger demand and how will it affect the allocation of resources?
 
-            **Additional Information:**
+        **Additional Information:**
 
-            * You have access to real-time data on passenger demand, traffic conditions, and available MRT trains and taxis.
-            * You can adjust resource allocation dynamically based on the evolving situation.
+        * You have access to real-time data on passenger demand, traffic conditions, and available MRT trains and taxis.
+        * You can adjust resource allocation dynamically based on the evolving situation.
 
-            **Constraints:**
+        **Constraints:**
 
-            * Maintain safety and quality of service standards for both MRT and taxi operations.
-            * Ensure efficient utilization of resources within budget limitations.
-            * Comply with relevant regulations and policies set by the Land Transport Authority (LTA) of Singapore.
+        * Maintain safety and quality of service standards for both MRT and taxi operations.
+        * Ensure efficient utilization of resources within budget limitations.
+        * Comply with relevant regulations and policies set by the Land Transport Authority (LTA) of Singapore.
 
-            **Question:**
+        **Question:**
 
-            Based on the current situation and available data (which I can access in real-time), propose a plan to optimize resource allocation for public transport (MRT and taxis) in Singapore.
+        Based on the current situation and available data (which is provided in the following), propose a plan to optimize resource allocation for public transport (MRT and bus) and taxi in Singapore.
+        Explicitly try to estimate the increment of certain public transport or taxi service by either stating a number or a percentage.
 
-            ** Data: **
+        **FORMAT**
 
-            """
+        Strictly format the response by returning it like this:
+        
+        |||General Information: <Gemini general response from all the data and intruction received. can be verbose>|||increment_taxi: <increment_taxi in percentage>|||increment_bus: <increment_bus in percentage>|||increment_train: <increment_train in percentage>|||
 
-            # ** Data: **
-            # * Month passenger volume data: { self. API_caller.get_passenger_volume(date) }
+        follow this guide as an EXAMPLE ONLY:
+        |||General Information: To prepare for the upcoming Slowdive concert on 2022-01-01 at the National Stadium,we should increase transport allocation to the area. Given the popularity of the event, we recommend the following resource allocation adjustments: 
+        - Increase MRT train frequency in the National Stadium area by 20%
+        - Increase taxi availability near the National Stadium by 25%
+        - Increase bus frequency on routes serving the National Stadium by 15%
+        These adjustments aim to ensure smooth commutes for passengers and cater to the expected high demand during the event.|||increment_taxi: 25|||increment_bus: 15|||increment_train: 20|||
 
-          return prompt
+        """
+
+        # Data
+        prompt += "**Data:**\n"
+        
+        # Mrt
+        prompt += "* MRT Real-Time Platform volume data : " + str(self.API_caller.get_platform_volume(self.API_caller.train_line_code))
+        prompt += "* MRT Forecast Platform volume data : " + str(self.API_caller.get_platform_crowd_density_forecast(self.API_caller.train_line_code))
+            
+        # Bus 
+        earliest_timing_and_load = {}
+        nearest_bus_stops = self.API_caller.find_nearest_bus_stops(self.API_caller.get_all_bus_routes(),des_lat,des_long)
+        for bus_stop in nearest_bus_stops:
+            bus_stop_code = bus_stop['BusStopCode']
+            bus_stop_data = self.API_caller.get_estimated_bus_arrival_time(bus_stop_code)
+            earliest_timing_and_load.update(self.API_caller.get_earliest_timing_and_load(bus_stop_code,bus_stop_data))
+
+        prompt += "**Earliest Timing and Load:**\n"
+        for service_no, info in earliest_timing_and_load.items():
+            prompt += f"Bus Stop Code: {info['BusStopCode']}, Service No: {service_no}, Estimated Arrival: {info['EstimatedArrival']}, Load: {info['Load']}\n"
+
+        # taxi
+        prompt += "* The number of Taxis in the destination/event place is : " + str(self.API_caller.find_number_nearby_ava_taxi(self.API_caller.get_taxi_availability(),des_lat,des_long))
+
+        return prompt
 
     def get_information_from_db(self):
         cur = self.DB_query.get_cursor()

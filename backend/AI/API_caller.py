@@ -33,13 +33,12 @@ class API_caller:
             for item in data['items']:
                 if 'address' in item and item['address']['countryName'] == "Singapore":
                     position = item['position']
-                    return position['lat'], position['lng']
-                
-            # Process the response data
-        else:
-            print('Failed to fetch data:', response.status_code)
-        
-        return data 
+                    data = position['lat'], position['lng']
+                    return data  # Return coordinates if found
+
+        # If coordinates for Singapore not found, return default
+        print('Coordinates for Singapore not found. Returning default coordinates.')
+        return (1.346735, 103.684668) 
 
     # Bus
     def get_all_bus_routes(self):
@@ -77,7 +76,7 @@ class API_caller:
         """
         return sqrt((latitude1 - latitude2) ** 2 + (longitude1 - longitude2) ** 2)
 
-    def haversine(lat1, lon1, lat2, lon2):
+    def haversine(self, lat1, lon1, lat2, lon2):
         """
         Calculate the great circle distance between two points 
         on the earth (specified in decimal degrees)
@@ -303,3 +302,57 @@ class API_caller:
             print('Failed to fetch data:', response.status_code)
         
         return str(arrival_data) 
+    
+    # taxi
+
+    def get_taxi_availability(self):
+        """
+        Function to retrieve taxi availability data.
+        """
+        api_key = self.api_key
+        headers = {
+            "AccountKey": api_key,
+            "Accept": "application/json" 
+        }
+        url = 'http://datamall2.mytransport.sg/ltaodataservice/Taxi-Availability'
+        results = []
+        while True:
+            response = requests.get(
+                url,
+                headers=headers,
+                params={'$skip': len(results)}
+            )
+            if response.status_code == 200:
+                new_results = response.json()['value']
+                if new_results:
+                    results += new_results
+                else:
+                    break
+            else:
+                print('Failed to fetch data:', response.status_code)
+                break
+
+        return results
+    
+    def find_number_nearby_ava_taxi(self,json_data, latitude, longitude, radius=1.00):
+        """
+        Function to find taxis within a certain radius of given latitude and longitude. 
+        Sorts the bus stops from nearest to farthest.
+        Default radius 500 meters
+        """
+
+        nearby_taxi = []
+        for taxi in json_data:
+            stop_latitude = taxi['Latitude']
+            stop_longitude = taxi['Longitude']
+            distance = self.haversine(latitude, longitude, stop_latitude, stop_longitude)
+            if distance <= radius:
+                nearby_taxi.append((taxi, distance))
+        
+        # Sort the nearby taxi based on distance
+        nearby_taxi.sort(key=lambda x: x[1])
+        
+        # Extract only the taxi information without distance
+        nearby_taxi = [taxi[0] for taxi in nearby_taxi]
+        
+        return len(nearby_taxi)
