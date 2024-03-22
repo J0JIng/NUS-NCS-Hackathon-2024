@@ -5,8 +5,19 @@ import { View, StyleSheet, Text } from 'react-native';
 const Services = ({ data }) => {
   return (
     <View style={styles.container}>
-      <Text>Output Component 1</Text>
-      <Text>Data: {JSON.stringify(data)}</Text>
+      <View style={styles.textBubble}>
+        <Text>Taxi</Text>
+      </View>
+      <View>
+        <Text>{data.taxi}</Text>
+      </View>
+
+      <View>
+        <Text>Bus + MRT</Text>
+      </View>
+      <View>
+        <Text>Data: {data.public_transport}</Text>
+      </View>
     </View>
   );
 };
@@ -15,18 +26,29 @@ const Services = ({ data }) => {
 const Users = ({ data }) => {
   return (
     <View style={styles.container}>
-      <Text>Output Component 2</Text>
-      <Text>Data: {JSON.stringify(data)}</Text>
+
+      <View style={styles.textBubble}>
+        <Text style ={styles.taxi}>Taxi</Text>
+      </View>
+
+      <View>
+        <Text>{data.taxi}</Text>
+      </View>
+
+      <View style={styles.busmrtBubble}>
+        <Text style={styles.busmrt}>Bus + MRT</Text>
+      </View>
+
+      <View>
+        <Text>{data.public_transport}</Text>
+      </View>
     </View>
   );
 };
 
 const Results = () => {
   const [jsonData, setJsonData] = useState(null);
-
-  // routing of the JSON file
   useEffect(() => {
-    // Importing JSON file using require
     const data = require('./data.json');
     setJsonData(data);
   }, []);
@@ -43,7 +65,9 @@ const Results = () => {
     // Render different components based on the value of 'type_of_user'
     if (typeOfUser === 'Services') {
       return <Services data={jsonData} />;
-    } else {
+    }
+    
+    else {
       return <Users data={jsonData} />;
     }
   };
@@ -60,6 +84,25 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  textBubble: {
+    height: 48,
+    width: 75, 
+    borderRadius: 28,
+    backgroundColor: '#21366C'
+  },
+  busmrtBubble: {
+    height: 48,
+    width: 150, 
+    borderRadius: 28,
+    backgroundColor: '#3455A9',
+    alignItems: 'center', 
+    justifyContent: 'center'
+  },
+  taxi: {
+    fontFamily: 'Montserrat_700Bold',
+    fontSize: 24,
+    fontWeight: 'bold'
   },
 });
 

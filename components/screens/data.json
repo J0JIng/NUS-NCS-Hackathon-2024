@@ -3,6 +3,5 @@
     "increment_bus": { "increment_bus": 15 },
     "increment_taxi": { "increment_taxi": 25 },
     "increment_train": { "increment_train": 20 },
-    "type_of_user": "Users"
+    "type_of_user": "Service"
 }
-  
