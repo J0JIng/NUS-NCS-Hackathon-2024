@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text, Pressable } from 'react-native';
 
+import Wilson from '../../assets/Wilson.jsx'
+
+
 // Sample component for Output 1
 const Services = ({ data }) => {
   return (
     <View style={styles.appContainer}>
-
+      <View style ={styles.sectionContainer}>
+        <Wilson width={100} height={100} fill="black" />
+      </View>
     <View style={styles.infoBubble}>
       <Text style ={styles.taxi}>General Information</Text>
     </View>
+    
     
 
     <View style={styles.sectionContainer}>
@@ -24,6 +30,9 @@ const Services = ({ data }) => {
 const Users = ({ data }) => {
   return (
     <View style={styles.appContainer}>
+    <View style ={styles.sectionContainer}>
+        <Wilson width={100} height={100} fill="black" />
+      </View>
 
       <View style={styles.textBubble}>
         <Text style ={styles.taxi}>Taxi</Text>
