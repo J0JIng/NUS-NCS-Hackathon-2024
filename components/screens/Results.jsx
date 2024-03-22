@@ -30,6 +30,7 @@ export default function Users ({navigation}) {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#F7F9FF',
     flex: 1,
     justifyContent: 'space-evenly',
     alignItems: 'center',

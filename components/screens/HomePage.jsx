@@ -27,7 +27,7 @@ export default function HomePage({navigation}) {
 
 export const styles = StyleSheet.create({
   appContainer: {
-    backgroundColor: '#EAF0FF',
+    backgroundColor: '#F7F9FF',
     paddingTop: 50,
     paddingHorizontal: 16,
     flex: 1,
