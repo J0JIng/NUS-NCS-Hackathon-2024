@@ -33,6 +33,7 @@ export default function Questionnaire ({navigation}) {
   };
 
   return (
+
     <View style={styles.container}>
 
       <View style={styles.header}>
@@ -158,10 +159,21 @@ export default function Questionnaire ({navigation}) {
         </Pressable>
       </View>
     </View>
+
   );
 };
 
 const styles = StyleSheet.create({
+  appContainer: {
+    backgroundColor: '#F7F9FF',
+    paddingTop: 50,
+    paddingHorizontal: 16,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    //borderColor: 'grey',
+    //borderWidth: 1,
+  },
   header: {
     marginTop: 20,
     marginBottom: 20
@@ -190,27 +202,32 @@ const styles = StyleSheet.create({
   },
   location: {
     width: 265,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'center',
+  
   },
   destination: {
     width: 265,
     marginBottom: 20,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  pickerL: {
+  pickerD: {
     backgroundColor: '#3455A9',
     borderRadius: 48,
     width: 250,
     height: 40,
-    paddingLeft: 15,
-    paddingRight: 10,
+    paddingHorizontal: 15,
+    //paddingRight: 10,
     color: '#F7F9FF', 
     fontFamily: 'Montserrat_700Bold',
     fontSize: 18,
     borderWidth: 0,
-    marginBottom: 20
+    marginBottom: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  pickerD: {
+  pickerL: {
     backgroundColor: '#97B4FF',
     borderRadius: 48,
     width: 250,

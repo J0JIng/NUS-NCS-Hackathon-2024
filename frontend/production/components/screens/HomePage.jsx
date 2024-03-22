@@ -32,7 +32,9 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 16,
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    //borderColor: 'grey',
+    //borderWidth: 1,
   },
   sectionContainer: {
     flexDirection: 'row',

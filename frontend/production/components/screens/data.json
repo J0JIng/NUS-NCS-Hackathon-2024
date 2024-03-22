@@ -1,8 +1,8 @@
 {
     "general_info": "General Information: Based on the information provided and considering the popularity of the event, here is a plan that optimizes public transport and taxi resource allocation for the Slowdive concert on 2022-01-01 at OCBC Arena:\n- MRT train frequency in the OCBC Arena area will be increased by 20%\n- Taxi availability near the OCBC Arena will be increased by 25%\n- Bus frequency on routes serving the OCBC Arena will be increased by 15%\nThese adjustments aim to ensure smooth commutes for passengers and cater to the expected high demand during the event.",
-    "increment_bus": { "increment_bus": 15 },
-    "increment_taxi": { "increment_taxi": 25 },
-    "increment_train": { "increment_train": 20 },
-    "type_of_user": "Users"
-}
+    "increment_bus": "increment_bus: 15",
+    "increment_taxi": "increment_taxi: 25",
+    "increment_train": "increment_train: 20",
+    "type_of_user": "Service"
+  }
   
