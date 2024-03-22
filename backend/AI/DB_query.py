@@ -24,8 +24,6 @@ class DB_query:
 
     #TODO: Add a query to CRU events info + users counter
 
-
-
     def update_gem_in_out_db(self, id, new_value):
         self.c.execute(f"UPDATE gemini_instruction SET response = '{new_value}' WHERE id = '{id}'")
         self.conn.commit()
