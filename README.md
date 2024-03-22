@@ -44,19 +44,26 @@
      cd ..
      ```
 
-4. **Build Docker Containers collectively:**
+4. **Alternatively, Use Script for Building:**
+   - If you prefer, you can use the provided script to start the containers. For Linux, you can use the script `start_script.sh`.
+
+     ```
+     ./start_script.sh
+     ```
+
+5. **Build Docker Containers collectively:**
    - Use the following command in the terminal to build the Docker containers:
      ```
      docker compose build
      ```
 
-5. **Run Containers:**
+6. **Run Containers:**
    - After building the containers, run them using the following command:
      ```
      docker compose up
      ```
 
-6. **Access Web App:**
+7. **Access Web App:**
    - Once the containers are running, open your favorite web browser.
    - Navigate to:
      ```
