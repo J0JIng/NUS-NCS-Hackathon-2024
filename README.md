@@ -9,6 +9,7 @@
 
 ![image](https://github.com/J0JIng/NUS-NCS-Hackathon-2024/assets/111691710/449e8481-bd38-4b15-ae99-64860d910935)
 
+**Team Name:** InnovateX. 
 **Project Description:** Using LLMs to interpret, predict, and manage crowd control.
 
 ## Usage:
