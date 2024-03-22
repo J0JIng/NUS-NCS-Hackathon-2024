@@ -81,9 +81,14 @@ const Results = ({navigation}) => {
       <View style={styles.container}>
         {renderComponents()}
       </View>
-      <View styles={styles.button}>
-          <Pressable style={styles.button} title= 'back to questions screen' onPress={pressHandler}/>
-      </View>
+
+      <View style={styles.sectionContainer}>
+      <Pressable onPress={() => navigation.goBack()}>
+          <Text style={styles.backText}>back to questions screen</Text>
+        </Pressable>
+        </View>
+        
+
     </View>
   );
 };
@@ -109,6 +114,7 @@ const styles = StyleSheet.create({
     //borderWidth: 1,
     borderRadius: 10,
   },
+
   responseContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -194,10 +200,23 @@ const styles = StyleSheet.create({
     marginTop: 20,
     backgroundColor: '#3455A9',
     height: 40,
-    width: 112,
+    width: 180,
     borderRadius: 28,
     alignItems: 'center',
     justifyContent:"center"
+  },
+  
+  backText: {
+    fontFamily: 'Montserrat_700Bold',
+    fontSize: 16,
+    fontWeight: 'normal',
+    backgroundColor: '#509af3',
+    justifyContent: 'center',
+    alignItems: 'center',
+    //borderColor: 'grey',
+    //borderWidth: 1,
+    borderRadius: 28,
+    padding: 12,
   },
   responseText: {
     fontFamily: 'Montserrat_300Bold',

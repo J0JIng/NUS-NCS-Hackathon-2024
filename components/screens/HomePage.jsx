@@ -42,7 +42,9 @@ export const styles = StyleSheet.create({
     marginBottom: 24,
     paddingHorizontal: 16,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    //borderColor: 'grey',
+    //borderWidth: 1,
   },
   text: {
     fontFamily: 'Montserrat_700Bold',
@@ -50,5 +52,7 @@ export const styles = StyleSheet.create({
     fontWeight: 'bolder',
     justifyContent: 'center',
     alignItems: 'center',
+    //borderColor: 'grey',
+    //borderWidth: 1,
   },
 });
