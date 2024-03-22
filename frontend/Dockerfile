@@ -10,7 +10,4 @@ EXPOSE 8081
 EXPOSE 19006
 
 
-CMD ["npm", "start"]
-
-
-
+CMD ["npx", "expo", "start", "--web"]
