@@ -33,6 +33,7 @@ export default function Questionnaire ({navigation}) {
   };
 
   return (
+
     <View style={styles.container}>
 
       <View style={styles.header}>
@@ -158,10 +159,21 @@ export default function Questionnaire ({navigation}) {
         </Pressable>
       </View>
     </View>
+
   );
 };
 
 const styles = StyleSheet.create({
+  appContainer: {
+    backgroundColor: '#F7F9FF',
+    paddingTop: 50,
+    paddingHorizontal: 16,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    //borderColor: 'grey',
+    //borderWidth: 1,
+  },
   header: {
     marginTop: 20,
     marginBottom: 20

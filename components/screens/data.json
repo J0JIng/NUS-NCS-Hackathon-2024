@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 
 { 
@@ -8,3 +9,11 @@
 "taxi": "Taxi Information: The estimated travel time by taxi from Changi Airport to the National Stadium is approximately 20 minutes.", 
 
 "type_of_user": "user" }
+=======
+{
+    "general_info": "General Information: I apologize, but I cannot provide any information about the Slowdive concert on 2022-01-01 as it is beyond my knowledge cut-off of April 2020.",
+    "public_transport": "Public transport Information: I am unable to provide public transport information as the real-time and forecast MRT platform volume data is currently unavailable.",
+    "taxi": "Taxi Information: The estimated travel time by taxi from Changi Airport to the National Stadium is approximately 20 minutes.",
+    "type_of_user": "user"
+}
+>>>>>>> refs/remotes/origin/jp
