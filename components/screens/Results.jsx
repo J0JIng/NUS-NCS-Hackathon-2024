@@ -4,28 +4,12 @@ import { View, StyleSheet, Text, Pressable } from 'react-native';
 // Sample component for Output 1
 const Services = ({ data }) => {
   return (
-<<<<<<< HEAD
-    <View style={styles.appContainer}>
-      <View style={styles.textBubble}>
-        <Text style ={styles.taxi}>Taxi</Text>
-      </View>
-      <View>
-        <Text>{data.taxi}</Text>
-      </View>
-
-      <View>
-        <Text style ={styles.taxi}>Bus + MRT</Text>
-      </View>
-      <View>
-        <Text>Data: {data.public_transport}</Text>
-=======
     <View style={styles.container}>
       <View style={styles.infoBubble}>
-        <Text style ={styles.taxti}>General Information</Text>
+        <Text style ={styles.taxi}>General Information</Text>
       </View>
       <View style={styles.outputContainer}>
         <Text style={styles.output}>{data.general_info}</Text>
->>>>>>> refs/remotes/origin/jp
       </View>
     </View>
   );
@@ -106,10 +90,6 @@ const Results = ({navigation}) => {
 
 const styles = StyleSheet.create({
   appContainer: {
-<<<<<<< HEAD
-
-=======
->>>>>>> refs/remotes/origin/jp
     paddingTop: 50,
     paddingHorizontal: 16,
     flex: 1,
@@ -140,9 +120,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#FAF0DC',
     borderRadius: 10,
     width: 300, 
-<<<<<<< HEAD
-
-=======
   },
   container: {
     flex: 1,
@@ -175,7 +152,6 @@ const styles = StyleSheet.create({
   responseText: {
     fontFamily: 'Montserrat_300Bold',
     fontSize: 16,
->>>>>>> refs/remotes/origin/jp
   },
   container: {
     flex: 1,
