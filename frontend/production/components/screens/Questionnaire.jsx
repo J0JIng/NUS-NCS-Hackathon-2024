@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import RNPickerSelect from 'react-native-picker-select';
 import { Picker } from '@react-native-picker/picker';
 import { View, StyleSheet, TextInput, Button, Alert, Text } from 'react-native';
@@ -25,24 +25,11 @@ export default function Questionnaire ({navigation}) {
     setSelectedDate(day.dateString);
   };
 
-  const handleSubmit = () => {
-    if (selectedDate) {
-      Alert.alert('Selected Date', selectedDate);
-      postJsonData(); // Call postJsonData when the button is pressed
-      return true; // Indicate success
-    } else {
-      Alert.alert('Error', 'Please select a date');
-      return false; // Indicate failure
-    }
-  };
+  const postJsonData = async () => {
+    const url = "http://127.0.0.1:8080/create_response";
+    const currentDate = new Date(); // Get the current date
   
-
-  useEffect(() => {
-    async function postJsonData() {
-      const url = "http://127.0.0.1:8080/create_response";
-      const currentDate = new Date(); // Get the current date
-
-      const data = {
+    const data = {
       // insert fields you want to send 
       type_of_user: selectedValue,
       busStop: "None",
@@ -53,34 +40,45 @@ export default function Questionnaire ({navigation}) {
       prompt: "None", 
       date_of_event: selectedDate,
       date: currentDate
-      };
-
-      try {
-        const response = await fetch(url, {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        });
-
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-
-        const responseData = await response.json();
-        console.log(responseData);
-      } catch (error) {
-        console.error("There was a problem with your fetch operation: ", error);
-        // Handle errors appropriately
+    };
+  
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+  
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
       }
+  
+      const responseData = await response.json();
+      console.log(responseData);
+    } catch (error) {
+      console.error("There was a problem with your fetch operation: ", error);
+      // Handle errors appropriately
     }
-
+  };
+  
+  const handleSubmit = async () => {
     if (selectedDate) {
-      postJsonData(); // Call postJsonData function when selectedDate changes
+      Alert.alert('Selected Date', selectedDate);
+      try {
+        await postJsonData(); // Call postJsonData when the button is pressed
+        return true; 
+      } catch (error) {
+        Alert.alert('Error', 'There was a problem submitting the data. Please try again later.');
+        return false; 
+      }
+    } else {
+      Alert.alert('Error', 'Please select a date');
+      return false; 
     }
-  }, [selectedDate]);
+  };
 
   return (
 

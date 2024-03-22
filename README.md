@@ -10,4 +10,4 @@ Use command in terminal `docker compose build` to build the docker containers.
 
 Then, command in terminal `docker compose up` to run the containers.
 
-Once started, in your favourite browser go to `localhost:8081/` to the web app
+Once started, in your favourite browser go to `localhost:19006/` to the web app
