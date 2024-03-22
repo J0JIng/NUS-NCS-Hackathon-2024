@@ -82,7 +82,7 @@ const Results = ({navigation}) => {
         {renderComponents()}
       </View>
 
-      <View style={styles.sectionContainer}>
+      <View style={styles.button}>
       <Pressable onPress={() => navigation.goBack()}>
           <Text style={styles.backText}>back to questions screen</Text>
         </Pressable>
@@ -208,15 +208,34 @@ const styles = StyleSheet.create({
   
   backText: {
     fontFamily: 'Montserrat_700Bold',
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'normal',
-    backgroundColor: '#509af3',
+    color:'#F7F9FF',
+    //backgroundColor: '#509af3',
     justifyContent: 'center',
     alignItems: 'center',
+    borderColor: 'grey',
+    //borderWidth: 1,
+    //borderRadius: 28,
+    padding: 12,
+    //textDecorationColor: "white",
+  },
+
+  buttonText: {
+    fontFamily: 'Montserrat_700Bold',
+    fontSize: 18,
+    color:'#F7F9FF'
+  },
+  button: {
+    marginTop: 20,
+    backgroundColor: '#3455A9',
+    height: 40,
+    width: 280,
+    borderRadius: 28,
+    alignItems: 'center',
+    justifyContent:"center",
     //borderColor: 'grey',
     //borderWidth: 1,
-    borderRadius: 28,
-    padding: 12,
   },
   responseText: {
     fontFamily: 'Montserrat_300Bold',
