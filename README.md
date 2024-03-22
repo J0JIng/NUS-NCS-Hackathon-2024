@@ -8,3 +8,14 @@
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 
 Using LLMs to interpret, predict, and manage crowd control. 
+
+
+Usage:
+
+Requirements:
+Install docker on local machine
+Use command in terminal `docker compose build` to build the docker containers.
+
+Then, command in terminal `docker compose up` to run the containers.
+
+Once started, in your favourite browser go to `localhost:19006/` to the web app
