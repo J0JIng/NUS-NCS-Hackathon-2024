@@ -42,7 +42,7 @@ const App = () => {
   async function postJsonData() {
     const url = "http://127.0.0.1:8080/create_response"; // Replace with your actual URL
     const data = {
-      type_of_user: "Service",
+      type_of_user: "user",
       busStop: "80219",
       curr_pos: "changi airport",
       dest_pos: "OCBC Arena",

@@ -4,6 +4,15 @@ import Gemini_caller
 import DB_query
 import json
 import logging
+from sys import stdout
+
+logger = logging.getLogger('myLogger')
+logger.setLevel(logging.DEBUG) # set logger level
+logFormatter = logging.Formatter\
+("%(name)-12s %(asctime)s %(levelname)-8s %(filename)s:%(funcName)s %(message)s")
+consoleHandler = logging.StreamHandler(stdout) #set streamhandler to stdout
+consoleHandler.setFormatter(logFormatter)
+logger.addHandler(consoleHandler)
 
 class Controller:
     def __init__(self):
@@ -39,7 +48,8 @@ class Controller:
             row = self.DB_query.get_latest_row("gemini_instruction")
 
             response = self.Gemini_caller.get_response(prompt)
-
+            logger.info(prompt)
+            logger.info(response)
             #print(row[0])
             self.DB_query.update_gem_in_out_db(row[0], response)
             if form_data["type_of_user"] == "user":
