@@ -22,7 +22,7 @@
 1. **Clone Repository:**
    - Clone the repository to your local machine:
      ```
-     git clone <repository_url>
+     git clone https://github.com/J0JIng/NUS-NCS-Hackathon-2024
      ```
 
 2. **Navigate to Project Directory:**
