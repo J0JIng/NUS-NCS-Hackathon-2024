@@ -7,15 +7,58 @@
 ![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white)
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 
-Using LLMs to interpret, predict, and manage crowd control. 
+**Project Description:** Using LLMs to interpret, predict, and manage crowd control.
 
+## Usage:
 
-Usage:
+### Recommendation:
+- Windows or Linux operating systems.
 
-Requirements:
-Install docker on local machine
-Use command in terminal `docker compose build` to build the docker containers.
+### Requirements:
+- Docker installed on your local machine.
 
-Then, command in terminal `docker compose up` to run the containers.
+### Installation:
 
-Once started, in your favourite browser go to `localhost:19006/` to the web app
+1. **Clone Repository:**
+   - Clone the repository to your local machine:
+     ```
+     git clone <repository_url>
+     ```
+
+2. **Navigate to Project Directory:**
+   - Open your terminal and navigate to the project directory:
+     ```
+     cd /mypath/NUS-NCS-Hackathon-2024
+     ```
+
+3. **Build Containers individually:**
+   - Build the container for the backend:
+     ```
+     cd backend
+     docker build .
+     ```
+   - Build the container for the front-end:
+     ```
+     cd ../frontend
+     docker build .
+     cd ..
+     ```
+
+4. **Build Docker Containers collectively:**
+   - Use the following command in the terminal to build the Docker containers:
+     ```
+     docker compose build
+     ```
+
+5. **Run Containers:**
+   - After building the containers, run them using the following command:
+     ```
+     docker compose up
+     ```
+
+6. **Access Web App:**
+   - Once the containers are running, open your favorite web browser.
+   - Navigate to:
+     ```
+     localhost:19006/
+     ```
