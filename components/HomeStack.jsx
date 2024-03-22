@@ -4,8 +4,6 @@ import HomePage from './screens/HomePage';
 import Questionnaire from './screens/Questionnaire';
 import Results from './screens/Results';
 
-import QuestionsForProviders from './screens/QuestionsForProviders';
-//import Questionnaire from './screens/Questionnaire';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,7 +14,6 @@ export default function HomeStack() {
                 <Stack.Screen name = "HomePage" component={HomePage} />
                 <Stack.Screen name = "Questionnaire" component={Questionnaire} />
                 <Stack.Screen name = "Results" component={Results} />
-                <Stack.Screen name = "QuestionsForProviders" component = {QuestionsForProviders} />
             </Stack.Navigator>
         </NavigationContainer>
     );

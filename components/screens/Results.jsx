@@ -1,60 +1,66 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, TextInput, Button, Alert, Text } from 'react-native';
-import {styles as homeStyles} from './HomePage.jsx';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, Text } from 'react-native';
 
-import Benson from '../../assets/Benson.jsx'
+// Sample component for Output 1
+const Services = ({ data }) => {
+  return (
+    <View style={styles.container}>
+      <Text>Output Component 1</Text>
+      <Text>Data: {JSON.stringify(data)}</Text>
+    </View>
+  );
+};
 
+// Sample component for Output 2
+const Users = ({ data }) => {
+  return (
+    <View style={styles.container}>
+      <Text>Output Component 2</Text>
+      <Text>Data: {JSON.stringify(data)}</Text>
+    </View>
+  );
+};
 
-export default function Users ({navigation}) {
-  const pressHandler = () => {
-    navigation.goBack();
-  }
+const Results = () => {
+  const [jsonData, setJsonData] = useState(null);
 
-  //use state functions for the rnpicker and the dropdowns
+  // Routing of the JSON file
+  useEffect(() => {
+    // Importing JSON file using require
+    const data = require('./data.json');
+    setJsonData(data);
+  }, []);
+
+  // Function to render components based on JSON key content
+  const renderComponents = () => {
+    if (!jsonData) {
+      return <View style={styles.container}><Text>Loading...</Text></View>;
+    }
+
+    // Check the value of the 'type_of_user' key
+    const typeOfUser = jsonData.type_of_user;
+
+    // Render different components based on the value of 'type_of_user'
+    if (typeOfUser === 'Services') {
+      return <Services data={jsonData} />;
+    } else {
+      return <Users data={jsonData} />;
+    }
+  };
 
   return (
     <View style={styles.container}>
-        <View style ={styles.sectionContainer}>
-          <Benson width={200} height={200} fill="black" />
-        </View>
-        <Text style={homeStyles.text}>based on your requirements...</Text>
-        <Text style={styles.resultstext}>results from json file</Text>
-    
-
-      <View styles={styles.time}>
-        <Button title= 'back to questions screen' onPress={pressHandler}/>
-      </View>
+      {renderComponents()}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#F7F9FF',
     flex: 1,
-    justifyContent: 'space-evenly',
+    justifyContent: 'center',
     alignItems: 'center',
-    padding: 16,
-  },
-  inputContainer: {
-    marginTop: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  input: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: 'gray',
-    padding: 10,
-    marginRight: 10,
-  },
-  selectedTime: {
-    fontSize: 18,
-    marginTop: 10,
-  },
-  resultstext: {
-    fontFamily: 'Montserrat_700Bold',
-    fontSize: 24,
-    textAlign: 'center'
   },
 });
+
+export default Results;
