@@ -6,6 +6,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8081:8081"
+      - "19006:19006"
     depends_on:
       - backend
 

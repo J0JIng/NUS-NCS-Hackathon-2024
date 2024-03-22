@@ -3,10 +3,12 @@ FROM node:20-alpine
 RUN apk update && apk upgrade
 
 COPY . .
-WORKDIR /prod
+WORKDIR /production
 RUN npm install
 
 EXPOSE 8081
+EXPOSE 19006
+
 
 CMD ["npm", "start"]
 
