@@ -44,7 +44,7 @@
      cd ..
      ```
 
-4. **Alternatively, Use Script for Building:**
+4. **Optional, Use Script for Building:**
    - If you prefer, you can use the provided script to start the containers. For Linux, you can use the script `start_script.sh`.
 
      ```
