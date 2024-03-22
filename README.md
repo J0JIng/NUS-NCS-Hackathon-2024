@@ -7,6 +7,8 @@
 ![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white)
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 
+![image](https://github.com/J0JIng/NUS-NCS-Hackathon-2024/assets/111691710/449e8481-bd38-4b15-ae99-64860d910935)
+
 **Project Description:** Using LLMs to interpret, predict, and manage crowd control.
 
 ## Usage:
