@@ -4,16 +4,16 @@ import { View, StyleSheet, Text } from 'react-native';
 // Sample component for Output 1
 const Services = ({ data }) => {
   return (
-    <View style={styles.container}>
+    <View style={styles.appContainer}>
       <View style={styles.textBubble}>
-        <Text>Taxi</Text>
+        <Text style ={styles.taxi}>Taxi</Text>
       </View>
       <View>
         <Text>{data.taxi}</Text>
       </View>
 
       <View>
-        <Text>Bus + MRT</Text>
+        <Text style ={styles.taxi}>Bus + MRT</Text>
       </View>
       <View>
         <Text>Data: {data.public_transport}</Text>
@@ -25,22 +25,28 @@ const Services = ({ data }) => {
 // Sample component for Output 2
 const Users = ({ data }) => {
   return (
-    <View style={styles.container}>
+    <View style={styles.appContainer}>
 
       <View style={styles.textBubble}>
         <Text style ={styles.taxi}>Taxi</Text>
       </View>
+      
 
-      <View>
-        <Text>{data.taxi}</Text>
+      <View style={styles.sectionContainer}>
+      <View style={styles.responseContainer}>
+        <Text style = {styles.responseText}>{data.taxi}</Text>
       </View>
+      </View>
+
 
       <View style={styles.busmrtBubble}>
-        <Text style={styles.busmrt}>Bus + MRT</Text>
+        <Text style={styles.taxi}>Bus + MRT</Text>
       </View>
 
-      <View>
-        <Text>{data.public_transport}</Text>
+      <View style={styles.sectionContainer}>
+      <View style={styles.responseContainer}>
+        <Text style = {styles.responseText}>{data.public_transport}</Text>
+      </View>
       </View>
     </View>
   );
@@ -80,6 +86,40 @@ const Results = () => {
 };
 
 const styles = StyleSheet.create({
+  appContainer: {
+
+    paddingTop: 50,
+    paddingHorizontal: 16,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    //borderColor: 'grey',
+    //borderWidth: 1,
+  },
+  sectionContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 24,
+    padding: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    //borderColor: 'grey',
+    //borderWidth: 1,
+    borderRadius: 10,
+  },
+  responseContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    //borderColor: 'grey',
+    //borderWidth: 1,
+    backgroundColor: '#FAF0DC',
+    borderRadius: 10,
+    width: 300, 
+
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -87,13 +127,15 @@ const styles = StyleSheet.create({
   },
   textBubble: {
     height: 48,
-    width: 75, 
+    width: 100, 
     borderRadius: 28,
-    backgroundColor: '#21366C'
+    backgroundColor: '#21366C',
+    alignItems: 'center', 
+    justifyContent: 'center'
   },
   busmrtBubble: {
     height: 48,
-    width: 150, 
+    width: 200, 
     borderRadius: 28,
     backgroundColor: '#3455A9',
     alignItems: 'center', 
@@ -103,6 +145,10 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat_700Bold',
     fontSize: 24,
     fontWeight: 'bold'
+  },
+  responseText: {
+    fontFamily: 'Montserrat_300Bold',
+    fontSize: 16,
   },
 });
 
