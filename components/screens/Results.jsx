@@ -24,7 +24,7 @@ const Users = ({ data }) => {
 const Results = () => {
   const [jsonData, setJsonData] = useState(null);
 
-  // Routing of the JSON file
+  // routing of the JSON file
   useEffect(() => {
     // Importing JSON file using require
     const data = require('./data.json');
