@@ -52,10 +52,24 @@ const Users = ({ data }) => {
 
 
 const Results = ({navigation}) => {
+
+  const backend_url = "http://127.0.0.1:8080/get_response"
+
   const [jsonData, setJsonData] = useState(null);
+  
   useEffect(() => {
-    const data = require('./data.json');
-    setJsonData(data);
+    async function fetchData() {
+      try {
+        const response = await fetch(backend_url);
+        const data = await response.json();
+        setJsonData(data);
+      } catch (error) {
+        console.error(error);
+        // Handle errors appropriately, like setting state to indicate an error
+      }
+    }
+
+    fetchData(); // Call the async function immediately
   }, []);
 
   // Function to render components based on JSON key content

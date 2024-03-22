@@ -24,13 +24,63 @@ export default function Questionnaire ({navigation}) {
   const handleDayPress = (day) => {
     setSelectedDate(day.dateString);
   };
+
   const handleSubmit = () => {
     if (selectedDate) {
       Alert.alert('Selected Date', selectedDate);
+      postJsonData(); // Call postJsonData when the button is pressed
+      return true; // Indicate success
     } else {
       Alert.alert('Error', 'Please select a date');
+      return false; // Indicate failure
     }
   };
+  
+
+  useEffect(() => {
+    async function postJsonData() {
+      const url = "http://127.0.0.1:8080/create_response";
+      const currentDate = new Date(); // Get the current date
+
+      const data = {
+      // insert fields you want to send 
+      type_of_user: selectedValue,
+      busStop: "None",
+      curr_pos: selectedLocation,
+      dest_pos: selectedDestination,
+      event: selectedEvent,
+      time: selectedTime,
+      prompt: "None", 
+      date_of_event: selectedDate,
+      date: currentDate
+      };
+
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const responseData = await response.json();
+        console.log(responseData);
+      } catch (error) {
+        console.error("There was a problem with your fetch operation: ", error);
+        // Handle errors appropriately
+      }
+    }
+
+    if (selectedDate) {
+      postJsonData(); // Call postJsonData function when selectedDate changes
+    }
+  }, [selectedDate]);
 
   return (
 
@@ -154,8 +204,15 @@ export default function Questionnaire ({navigation}) {
       </View>
 
       <View style={styles.button}>
-        <Pressable onPress={() => navigation.navigate('Results')}>
-          <Text style={styles.buttonText}>travel!</Text>
+        <Pressable onPress={async () => {
+              const submitSuccess = await handleSubmit();  // Call handleSubmit function and await its result
+              if (submitSuccess) {
+                  navigation.navigate('Results');  // Navigate to the 'Results' screen if handleSubmit is successful
+              } else {
+                  Alert.alert('Error', 'Please try again');
+              }
+          }}>
+            <Text style={styles.buttonText}>travel!</Text>
         </Pressable>
       </View>
     </View>
