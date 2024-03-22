@@ -6,9 +6,21 @@ import { useState } from 'react';
 import Benson from '../../assets/Benson.jsx'
 
 export default function HomePage({navigation}) {
+<<<<<<< HEAD
 /*const pressHandler1 = () => {
   navigation.push('Users');
 }*/
+=======
+const pressHandler1 = () => {
+
+  navigation.navigate('Users')
+  //navigation.push('Users');
+}
+const pressHandler2 = () => {
+  navigation.navigate('QuestionsForProviders')
+  //navigation.push('QuestionsForProviders');
+}
+>>>>>>> refs/remotes/origin/jp
 
   return (
     <View style={styles.appContainer}>
