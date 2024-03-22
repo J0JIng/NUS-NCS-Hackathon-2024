@@ -4,14 +4,19 @@ import { View, StyleSheet, Text, Pressable } from 'react-native';
 // Sample component for Output 1
 const Services = ({ data }) => {
   return (
-    <View style={styles.container}>
-      <View style={styles.infoBubble}>
-        <Text style ={styles.taxi}>General Information</Text>
-      </View>
-      <View style={styles.outputContainer}>
-        <Text style={styles.output}>{data.general_info}</Text>
-      </View>
+    <View style={styles.appContainer}>
+
+    <View style={styles.infoBubble}>
+      <Text style ={styles.taxi}>General Information</Text>
     </View>
+    
+
+    <View style={styles.sectionContainer}>
+    <View style={styles.responseContainer}>
+      <Text style = {styles.responseText}>{data.general_info}</Text>
+    </View>
+    </View>
+  </View>
   );
 };
 
@@ -153,16 +158,12 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     alignItems: 'center', 
-    justifyContent: 'center'
+    justifyContent: 'center',
+    color: '#F7F9FF'
   },
   responseText: {
     fontFamily: 'Montserrat_300Bold',
     fontSize: 16,
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   textBubble: {
     height: 48,
@@ -184,7 +185,9 @@ const styles = StyleSheet.create({
     height: 48,
     width: 280, 
     borderRadius: 28,
-    backgroundColor: '#21366C'
+    backgroundColor: '#21366C',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   outputContainer: {
     marginTop: 20,
