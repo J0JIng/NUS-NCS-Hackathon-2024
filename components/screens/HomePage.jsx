@@ -6,9 +6,9 @@ import { useState } from 'react';
 import Benson from '../../assets/Benson.jsx'
 
 export default function HomePage({navigation}) {
-const pressHandler1 = () => {
+/*const pressHandler1 = () => {
   navigation.push('Users');
-}
+}*/
 
   return (
     <View style={styles.appContainer}>
@@ -16,10 +16,9 @@ const pressHandler1 = () => {
         <Benson width={300} height={300} fill="black" />
       </View>
 
-      <View style ={styles.sectionContainer}>
-        <Pressable onPress={pressHandler1} >
-          <Text 
-            style={styles.text}>looking for a ride?</Text>
+      <View style={styles.sectionContainer}>
+        <Pressable onPress={() => navigation.navigate('Questionnaire')}>
+          <Text style={styles.text}>looking for a ride?</Text>
         </Pressable>
       </View>
     </View>
@@ -40,10 +39,14 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 24,
     paddingHorizontal: 16,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   text: {
     fontFamily: 'Montserrat_700Bold',
     fontSize: 64,
-    fontWeight: 'bolderw'
+    fontWeight: 'bolder',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
