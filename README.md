@@ -45,6 +45,7 @@
      docker build .
      cd ..
      ```
+     (note: npm install might take a while)
 
 4. **Optional, Use Script for Building:**
    - If you prefer, you can use the provided script to start the containers. For Linux, you can use the script `start_script.sh`.
@@ -71,3 +72,7 @@
      ```
      localhost:19006/
      ```
+
+### Note:
+   - It might take a little a while to load the response from Gemini.
+   
