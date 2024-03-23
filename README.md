@@ -20,6 +20,7 @@
 
 ### Requirements:
 - Docker installed on your local machine.
+- acquire API keys from LTA Datamall and HERE Technologies ()
 
 ### Installation:
 
